@@ -1,4 +1,4 @@
-package com.semihbkgr.discoveryserver;
+package com.semihbkgr.ecommerce.discoveryserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

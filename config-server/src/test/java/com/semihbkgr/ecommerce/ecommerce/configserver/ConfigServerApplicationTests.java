@@ -1,4 +1,4 @@
-package com.semihbkgr.configserver;
+package com.semihbkgr.ecommerce.ecommerce.configserver;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
