@@ -1,0 +1,36 @@
+version: "3.1"
+services:
+  config:
+    image: ecom-config-server:latest
+    restart: always
+    container_name: ecom-config-server
+    hostname: config
+    environment:
+      - "server.port=8888"
+    expose:
+      - 8888
+    ports:
+      - 8888:8888
+    networks:
+      - ecom-network
+  discovery:
+    image: ecom-discovery-server:latest
+    restart: always
+    container_name: ecom-discovery-server
+    hostname: discovery
+    depends_on:
+      - config
+
+    environment:
+      - "server.port=8761"
+      - "config.server.address=config"
+      - "config.server.port:8888"
+    expose:
+      - 8761
+    ports:
+      - 8761:8761
+    networks:
+      - ecom-network
+networks:
+  ecom-network:
+    driver: bridge
