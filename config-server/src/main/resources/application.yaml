@@ -4,7 +4,7 @@ spring:
   application:
     name: config-server
   profiles:
-    active: native
+    active: native, dev
   cloud:
     config.server.native.search-locations: [ "classpath:services", "classpath:services/{profile}" ]
   security:
@@ -12,4 +12,5 @@ spring:
       name: user
       password: pass
 logging:
-  level: warn
+  level:
+    root: warn
