@@ -11,6 +11,3 @@ spring:
     user:
       name: user
       password: pass
-logging:
-  level:
-    root: warn
