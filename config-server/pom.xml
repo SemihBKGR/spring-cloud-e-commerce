@@ -12,7 +12,7 @@
     <artifactId>config-server</artifactId>
 
     <properties>
-        <final-jar-name>config</final-jar-name>
+        <final-jar-name>${artifactId}</final-jar-name>
     </properties>
 
     <dependencies>

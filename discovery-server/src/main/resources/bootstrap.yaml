@@ -1,4 +1,8 @@
 spring:
   application:
-    name: discovery-server
-
+    name: discovery
+  cloud:
+    config:
+      uri: http://${config.server.ip:127.0.0.1}:${config.server.port:8888}
+      username: user
+      password: pass
