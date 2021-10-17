@@ -1,18 +1,15 @@
 server:
   port: 8888
-  ssl:
-    key-store-provider: SUN
-    key-store-type: JKS
-    key-alias: my_alias
-    key-password: my_password
-    key-store: classpath:ssl-server.jks
-    key-store-password: my_password
 spring:
-  cloud:
-    config.server.native.search-locations: [ "classpath:services", "classpath:services/{ profile }" ]
+  application:
+    name: config-server
   profiles:
     active: native
+  cloud:
+    config.server.native.search-locations: [ "classpath:services", "classpath:services/{profile}" ]
   security:
     user:
-      password: password
       name: user
+      password: pass
+logging:
+  level: warn

@@ -1,8 +1,0 @@
-encrypt:
-  key: my_secret_key
-spring:
-  cloud:
-    config:
-      server:
-        encrypt:
-          enabled: false
