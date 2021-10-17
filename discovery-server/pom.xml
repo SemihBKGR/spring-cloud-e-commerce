@@ -12,7 +12,7 @@
     <artifactId>discovery-server</artifactId>
 
     <properties>
-        <final-jar-name>${artifactId}</final-jar-name>
+        <final-jar-name>discovery</final-jar-name>
     </properties>
 
     <dependencies>
