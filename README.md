@@ -1,13 +1,12 @@
 # e-commerce
 
-Spring cloud microservice application
-
 ### Servers
 - config
 - discovery
 - user
 
+### Build commands
 
 ```console
-docker-compose --env=file= .env.dev .
+docker-compose --env-file=.env.dev up
 ```

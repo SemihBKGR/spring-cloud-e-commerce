@@ -32,6 +32,26 @@ services:
       - ${DISCOVERY_PORT}:${DISCOVERY_PORT}
     networks:
       - ecom-network
+  user:
+    image: ecom-user-server:latest
+    restart: always
+    container_name: ecom-user-server
+    hostname: ${USER_HOSTNAME}
+    depends_on:
+      - config
+    environment:
+      server.port: ${USER_PORT}
+      spring.profiles.active: ${USER_SPRING_PROFILES}
+      config.server.address: ${CONFIG_HOSTNAME}
+      config.server.port: ${CONFIG_PORT}
+      discovery.server.address: ${DISCOVERY_HOSTNAME}
+      discovery.server.port: ${DISCOVERY_PORT}
+    expose:
+      - ${USER_PORT}
+    ports:
+      - ${USER_PORT}:${USER_PORT}
+    networks:
+      - ecom-network
 networks:
   ecom-network:
     driver: bridge
