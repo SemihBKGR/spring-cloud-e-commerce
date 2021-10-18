@@ -1,0 +1,16 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: gateway
+  profiles:
+    active: dev
+  cloud:
+    config:
+      uri: http://${config.server.address:localhost}:${config.server.port:8888}
+      username: user
+      password: pass
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${discovery.server.address:localhost}:${discovery.server.port:8761}/eureka/
