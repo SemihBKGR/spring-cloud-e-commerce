@@ -7,7 +7,7 @@ services:
     hostname: ${CONFIG_HOSTNAME}
     environment:
       server.port: ${CONFIG_PORT}
-      spring.profiles.active: ${SPRING_PROFILES}
+      spring.profiles.active: ${CONFIG_SPRING_PROFILES}
     expose:
       - ${CONFIG_PORT}
     ports:
@@ -23,7 +23,7 @@ services:
       - config
     environment:
       server.port: ${DISCOVERY_PORT}
-      spring.profiles.active: ${SPRING_PROFILES}
+      spring.profiles.active: ${DISCOVERY_SPRING_PROFILES}
       config.server.address: ${CONFIG_HOSTNAME}
       config.server.port: ${CONFIG_PORT}
     expose:
