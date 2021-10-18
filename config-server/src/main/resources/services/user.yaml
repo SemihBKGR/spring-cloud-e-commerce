@@ -1,2 +1,9 @@
-
-
+spring:
+  data:
+    mongodb:
+      host: ${mongodb.hostname:localhost}
+      post: ${mongodb.port:27017}
+      database: users
+      username: ${mongodb.username:root}
+      password: ${mongodb.password:password}
+      auto-index-creation: true
