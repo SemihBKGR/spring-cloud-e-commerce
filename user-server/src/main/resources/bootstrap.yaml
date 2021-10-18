@@ -1,0 +1,16 @@
+server:
+  port: 9000
+spring:
+  application:
+    name: user
+  profiles:
+    active: dev
+  cloud:
+    config:
+      uri: http://${config.server.address:localhost}:${config.server.port:8888}
+      username: user
+      password: pass
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${discovery.server.address:localhost}:${discovery.server.port:8761}/eureka/
