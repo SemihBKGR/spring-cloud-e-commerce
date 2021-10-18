@@ -6,3 +6,8 @@ Spring cloud microservice application
 - config
 - discovery
 - user
+
+
+```console
+docker-compose --env=file= .env.dev .
+```
