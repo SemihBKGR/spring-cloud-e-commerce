@@ -53,6 +53,27 @@ services:
       - ${USER_PORT}:${USER_PORT}
     networks:
       - ecom-network
+  gateway:
+    image: ecom-gateway-server:latest
+    restart: always
+    container_name: ecom-gateway-server
+    hostname: ${GATEWAY_HOSTNAME}
+    depends_on:
+      - config
+      - mongo
+    environment:
+      - server.port=${GATEWAY_PORT}
+      - spring.profiles.active=${GATEWAY_SPRING_PROFILES}
+      - CONFIG_SERVER_ADDRESS=${CONFIG_HOSTNAME}
+      - CONFIG_SERVER_PORT=${CONFIG_PORT}
+      - DISCOVERY_SERVER_ADDRESS=${DISCOVERY_HOSTNAME}
+      - DISCOVERY_SERVER_PORT=${DISCOVERY_PORT}
+    expose:
+      - ${GATEWAY_PORT}
+    ports:
+      - ${GATEWAY_PORT}:${GATEWAY_PORT}
+    networks:
+      - ecom-network
   mongo:
     image: mongo:latest
     restart: always
