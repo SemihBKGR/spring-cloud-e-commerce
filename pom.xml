@@ -20,6 +20,7 @@
         <module>discovery-server</module>
         <module>user-server</module>
         <module>gateway-server</module>
+        <module>log-server</module>
     </modules>
 
     <properties>
