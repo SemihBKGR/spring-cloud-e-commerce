@@ -12,5 +12,9 @@ spring:
       password: pass
 eureka:
   client:
+    fetchRegistry: 'true'
+    registerWithEureka: 'false'
     serviceUrl:
       defaultZone: http://${discovery.server.address:localhost}:${discovery.server.port:8761}/eureka/
+  instance:
+    preferIpAddress: 'true'
