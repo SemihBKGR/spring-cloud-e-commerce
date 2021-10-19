@@ -1,0 +1,3 @@
+zuul:
+  routes:
+    user: /user/**
