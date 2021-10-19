@@ -1,3 +1,5 @@
+server:
+  port: 8080
 spring:
   cloud:
     gateway:
@@ -10,3 +12,11 @@ spring:
         locator:
           enabled: 'true'
           lower-case-service-id: 'true'
+eureka:
+  client:
+    fetchRegistry: 'true'
+    registerWithEureka: 'false'
+    serviceUrl:
+      defaultZone: http://${discovery.server.address:localhost}:${discovery.server.port:8761}/eureka/
+  instance:
+    preferIpAddress: 'true'
