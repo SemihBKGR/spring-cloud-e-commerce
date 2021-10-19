@@ -24,8 +24,8 @@ services:
     environment:
       - server.port=${DISCOVERY_PORT}
       - spring.profiles.active=${DISCOVERY_SPRING_PROFILES}
-      - config.server.address=${CONFIG_HOSTNAME}
-      - config.server.port=${CONFIG_PORT}
+      - CONFIG_SERVER_ADDRESS=${CONFIG_HOSTNAME}
+      - CONFIG_SERVER_PORT=${CONFIG_PORT}
     expose:
       - ${DISCOVERY_PORT}
     ports:
@@ -43,10 +43,10 @@ services:
     environment:
       - server.port=${USER_PORT}
       - spring.profiles.active=${USER_SPRING_PROFILES}
-      - config.server.address=${CONFIG_HOSTNAME}
-      - config.server.port=${CONFIG_PORT}
-      - discovery.server.address=${DISCOVERY_HOSTNAME}
-      - discovery.server.port=${DISCOVERY_PORT}
+      - CONFIG_SERVER_ADDRESS=${CONFIG_HOSTNAME}
+      - CONFIG_SERVER_PORT=${CONFIG_PORT}
+      - DISCOVERY_SERVER_ADDRESS=${DISCOVERY_HOSTNAME}
+      - DISCOVERY_SERVER_PORT=${DISCOVERY_PORT}
     expose:
       - ${USER_PORT}
     ports:
