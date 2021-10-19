@@ -6,4 +6,5 @@ spring:
       database: users
       username: ${mongodb.username:root}
       password: ${mongodb.password:password}
+      authentication-database: admin
       auto-index-creation: true

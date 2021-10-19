@@ -7,4 +7,6 @@ public interface UserService {
 
     Mono<User> findById(int id);
 
+    Mono<User> save(User user);
+
 }
