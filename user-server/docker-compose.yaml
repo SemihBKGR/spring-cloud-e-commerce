@@ -11,3 +11,28 @@ services:
       - ./volumes/mongodb/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
     ports:
       - 27017:27017
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - ./volumes/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=keycloak
+      - MYSQL_USER=user
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=password
+    ports:
+      - 3306:3306
+  keycloak:
+    image: quay.io/keycloak/keycloak:latest
+    environment:
+      - DB_VENDOR=MYSQL
+      - DB_ADDR=mysql
+      - DB_DATABASE=keycloak
+      - DB_USER=user
+      - DB_PASSWORD=password
+      - KEYCLOAK_USER=user
+      - KEYCLOAK_PASSWORD=password
+    ports:
+      - 8080:8080
+    depends_on:
+      - mysql
