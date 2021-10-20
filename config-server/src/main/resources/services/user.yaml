@@ -14,3 +14,10 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://${DISCOVERT_SERVER_ADDRESS:localhost}:${DISCOVERT_SERVER_PORT:8761}/eureka/
+
+
+keycloak:
+  realm: e-commerce
+  auth-server-url: http://localhost:8080/auth
+  resource: login-app
+  public-client: true
