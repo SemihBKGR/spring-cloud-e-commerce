@@ -74,20 +74,6 @@ services:
       - ${GATEWAY_PORT}:${GATEWAY_PORT}
     networks:
       - ecom-network
-  mongo:
-    image: mongo:latest
-    restart: always
-    container_name: ecom-mongodb
-    hostname: ${MONGO_HOSTNAME}
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
-    volumes:
-      - ./volumes/mongodb/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
-    ports:
-      - ${MONGO_PORT}:${MONGO_PORT}
-    networks:
-      - ecom-network
   postgres:
     image: postgres:13.2
     container_name: ecom-postgres
