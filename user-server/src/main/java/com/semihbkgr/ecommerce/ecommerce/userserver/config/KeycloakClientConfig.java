@@ -11,30 +11,29 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class KeycloakClientConfig {
 
-
-    private String clientId="default";
     @Value("${keycloak.auth-server-url}")
     private String authUrl;
     @Value("${keycloak.realm}")
     private String realm;
-
-    private String username = "user";
-
-    private String password = "password";
+    @Value("${keycloak.resource}")
+    private String clientId;
+    @Value("${keycloak-user.admin.username}")
+    private String username;
+    @Value("${keycloak-user.admin.password}")
+    private String password;
 
     @Bean
     public Keycloak keycloak() {
         Keycloak keycloak = KeycloakBuilder.builder()
-                .serverUrl("http://localhost:8080/auth")
+                .serverUrl(authUrl)
                 .grantType(OAuth2Constants.PASSWORD)
-                .realm("ecom")
-                .clientId("default")
-                .username("user")
-                .password("password")
-                .resteasyClient(
-                        new ResteasyClientBuilder()
-                                .connectionPoolSize(10).build()
-                ).build();
+                .realm(realm)
+                .clientId(clientId)
+                .username(username)
+                .password(password)
+                .resteasyClient(new ResteasyClientBuilder().connectionPoolSize(10).build())
+                .build();
+        // checking connection
         keycloak.tokenManager().getAccessToken();
         return keycloak;
     }
