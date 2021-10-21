@@ -17,6 +17,6 @@ eureka:
 
 keycloak:
   realm: ecom
-  auth-server-url: http://localhost:8080/auth
+  auth-server-url: http://${KEYCLOAK_URL:localhost}:${KEYCLOAK.PORT:8080}/auth
   resource: default
   public-client: true
