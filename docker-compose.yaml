@@ -6,8 +6,8 @@ services:
     container_name: ecom-config-server
     hostname: ${CONFIG_HOSTNAME}
     environment:
-      - server.port=${CONFIG_PORT}
-      - spring.profiles.active=${CONFIG_SPRING_PROFILES}
+      server.port: ${CONFIG_PORT}
+      spring.profiles.active: ${CONFIG_SPRING_PROFILES}
     expose:
       - ${CONFIG_PORT}
     ports:
@@ -22,10 +22,10 @@ services:
     depends_on:
       - config
     environment:
-      - server.port=${DISCOVERY_PORT}
-      - spring.profiles.active=${DISCOVERY_SPRING_PROFILES}
-      - CONFIG_SERVER_ADDRESS=${CONFIG_HOSTNAME}
-      - CONFIG_SERVER_PORT=${CONFIG_PORT}
+      server.port: ${DISCOVERY_PORT}
+      spring.profiles.active: ${DISCOVERY_SPRING_PROFILES}
+      CONFIG_SERVER_ADDRESS: ${CONFIG_HOSTNAME}
+      CONFIG_SERVER_PORT: ${CONFIG_PORT}
     expose:
       - ${DISCOVERY_PORT}
     ports:
@@ -41,12 +41,12 @@ services:
       - config
       - mongo
     environment:
-      - server.port=${USER_PORT}
-      - spring.profiles.active=${USER_SPRING_PROFILES}
-      - CONFIG_SERVER_ADDRESS=${CONFIG_HOSTNAME}
-      - CONFIG_SERVER_PORT=${CONFIG_PORT}
-      - DISCOVERY_SERVER_ADDRESS=${DISCOVERY_HOSTNAME}
-      - DISCOVERY_SERVER_PORT=${DISCOVERY_PORT}
+      server.port: ${USER_PORT}
+      spring.profiles.active: ${USER_SPRING_PROFILES}
+      CONFIG_SERVER_ADDRESS: ${CONFIG_HOSTNAME}
+      CONFIG_SERVER_PORT: ${CONFIG_PORT}
+      DISCOVERY_SERVER_ADDRESS: ${DISCOVERY_HOSTNAME}
+      DISCOVERY_SERVER_PORT: ${DISCOVERY_PORT}
     expose:
       - ${USER_PORT}
     ports:
@@ -62,12 +62,12 @@ services:
       - config
       - mongo
     environment:
-      - server.port=${GATEWAY_PORT}
-      - spring.profiles.active=${GATEWAY_SPRING_PROFILES}
-      - CONFIG_SERVER_ADDRESS=${CONFIG_HOSTNAME}
-      - CONFIG_SERVER_PORT=${CONFIG_PORT}
-      - DISCOVERY_SERVER_ADDRESS=${DISCOVERY_HOSTNAME}
-      - DISCOVERY_SERVER_PORT=${DISCOVERY_PORT}
+      server.port: ${GATEWAY_PORT}
+      spring.profiles.active: ${GATEWAY_SPRING_PROFILES}
+      CONFIG_SERVER_ADDRESS: ${CONFIG_HOSTNAME}
+      CONFIG_SERVER_PORT: ${CONFIG_PORT}
+      DISCOVERY_SERVER_ADDRESS: ${DISCOVERY_HOSTNAME}
+      DISCOVERY_SERVER_PORT: ${DISCOVERY_PORT}
     expose:
       - ${GATEWAY_PORT}
     ports:
@@ -77,46 +77,51 @@ services:
   mongo:
     image: mongo:latest
     restart: always
-    container_name: ecom-mongo-database
+    container_name: ecom-mongodb
     hostname: ${MONGO_HOSTNAME}
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_ROOT_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_ROOT_PASSWORD}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
     volumes:
       - ./volumes/mongodb/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
     ports:
       - ${MONGO_PORT}:${MONGO_PORT}
     networks:
       - ecom-network
-  mysql:
-    image: mysql:5.7
-    volumes:
-      - ./volumes/mysql:/var/lib/mysql
+  postgres:
+    image: postgres:13.2
+    container_name: ecom-postgres
+    hostname: postgres
     environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=keycloak
-      - MYSQL_USER=keycloak
-      - MYSQL_PASSWORD=password
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
     ports:
-      - 3306:3306
+      - 5432:5432
     networks:
       - ecom-network
   keycloak:
-    image: quay.io/keycloak/keycloak:latest
+    image: jboss/keycloak:latest
+    container_name: ecom-keycloak
+    hostname: keycloak
     environment:
-      DB_VENDOR: MYSQL
-      DB_ADDR: mysql
+      DB_VENDOR: postgres
+      DB_ADDR: postgres
       DB_DATABASE: keycloak
-      DB_USER: keycloak
+      DB_USER: user
       DB_PASSWORD: password
       KEYCLOAK_USER: user
       KEYCLOAK_PASSWORD: password
-    networks:
-      - ecom-network
+    depends_on:
+      - postgres
+    volumes:
+      - ./volumes/keycloak/imports:/opt/jboss/keycloak/imports
+    command:
+      - '-b 0.0.0.0 -Dkeycloak.import=/opt/jboss/keycloak/imports/realm-export.json'
     ports:
       - 8080:8080
-    depends_on:
-      - mysql
+    networks:
+      - ecom-network
 networks:
   ecom-network:
     driver: bridge

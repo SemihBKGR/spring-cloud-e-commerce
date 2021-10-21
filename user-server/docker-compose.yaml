@@ -1,38 +1,53 @@
-version: '3.1'
+version: '3.9'
 services:
   mongodb:
     image: mongo:latest
-    container_name: ecom-mongodb-database
+    container_name: ecom-user-server-mongodb
+    hostname: mongodb
     environment:
-      - MONGO_INITDB_DATABASE=users
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=password
+      MONGO_INITDB_DATABASE: users
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
     volumes:
       - ./volumes/mongodb/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
     ports:
       - 27017:27017
-  mysql:
-    image: mysql:5.7
-    volumes:
-      - ./volumes/mysql:/var/lib/mysql
+    networks:
+      - ecom-user-server-network
+  postgres:
+    image: postgres:13.2
+    container_name: ecom-user-server-postgres
+    hostname: postgres
     environment:
-      - MYSQL_DATABASE=keycloak
-      - MYSQL_USER=user
-      - MYSQL_PASSWORD=password
-      - MYSQL_ROOT_PASSWORD=password
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
     ports:
-      - 3306:3306
+      - 5432:5432
+    networks:
+      - ecom-user-server-network
   keycloak:
-    image: quay.io/keycloak/keycloak:latest
+    image: jboss/keycloak:latest
+    container_name: ecom-user-server-keycloak
+    hostname: keycloak
     environment:
-      - DB_VENDOR=MYSQL
-      - DB_ADDR=mysql
-      - DB_DATABASE=keycloak
-      - DB_USER=user
-      - DB_PASSWORD=password
-      - KEYCLOAK_USER=user
-      - KEYCLOAK_PASSWORD=password
+      DB_VENDOR: postgres
+      DB_ADDR: postgres
+      DB_DATABASE: keycloak
+      DB_USER: user
+      DB_PASSWORD: password
+      KEYCLOAK_USER: user
+      KEYCLOAK_PASSWORD: password
+    depends_on:
+      - postgres
+    volumes:
+      - ./volumes/keycloak/imports:/opt/jboss/keycloak/imports
+    command:
+      - '-b 0.0.0.0 -Dkeycloak.import=/opt/jboss/keycloak/imports/realm-export.json'
     ports:
       - 8080:8080
-    depends_on:
-      - mysql
+    networks:
+      - ecom-user-server-network
+networks:
+  ecom-user-server-network:
+    driver: bridge
