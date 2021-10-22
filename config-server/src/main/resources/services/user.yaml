@@ -8,7 +8,7 @@ eureka:
 keycloak:
   realm: ecom
   auth-server-url: http://${KEYCLOAK_URL:localhost}:${KEYCLOAK.PORT:8080}/auth
-  resource: user-server
+  resource: common-client
   public-client: true
 
 # Keycloak SpringBoot api uses @ConfigurationProperties for configuration.
