@@ -1,5 +1,7 @@
 # e-commerce
 
+Spring cloud microservice arthitectured web project
+
 ### Servers
 - config
 - discovery
@@ -17,3 +19,4 @@ Password: password
 Client: common-client
 User Admin Username: admin
 User Admin Password: pass
+
