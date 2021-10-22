@@ -1,0 +1,14 @@
+server:
+  port: 9999
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registery: true
+    serviceUrl:
+      defaultZone: http://${DISCOVERT_SERVER_ADDRESS:localhost}:${DISCOVERT_SERVER_PORT:8761}/eureka/
+
+keycloak:
+  realm: ecom
+  auth-server-url: http://${KEYCLOAK_URL:localhost}:${KEYCLOAK.PORT:8080}/auth
+  resource: user-server
+  public-client: true
