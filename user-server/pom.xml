@@ -76,6 +76,8 @@
                 <groupId>com.semihbkgr</groupId>
                 <artifactId>model-common</artifactId>
                 <version>${project.version}</version>
+                <scope>system</scope>
+                <systemPath>${project.basedir}/../model-common/target/model-common-1.0.0.jar</systemPath>
             </dependency>
         </dependencies>
     </dependencyManagement>
