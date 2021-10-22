@@ -22,6 +22,7 @@
         <module>gateway-server</module>
         <module>log-server</module>
         <module>ui-server</module>
+        <module>model-common</module>
     </modules>
 
     <properties>
