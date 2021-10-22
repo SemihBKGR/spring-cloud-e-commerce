@@ -1,10 +1,12 @@
 package com.semihbkgr.ecommerce.ecommerce.userserver.service;
 
 import com.semihbkgr.ecommerce.ecommerce.userserver.util.Page;
+import com.semihbkgr.ecommerce.ecommerce.userserver.util.UserUtils;
+import com.semihbkgr.ecommerce.modelcommon.user.User;
+import com.semihbkgr.ecommerce.modelcommon.user.UserInfo;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.admin.client.Keycloak;
-import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
@@ -22,19 +24,19 @@ public class UserServiceImpl implements UserService {
 
     @Nullable
     @Override
-    public UserRepresentation findByUsername(@NonNull String username) throws IllegalStateException {
+    public User findByUsername(@NonNull String username) throws IllegalStateException {
         var userRepList = keycloak.realm(realm).users().search(username, true);
         if (userRepList.isEmpty())
             return null;
         else if (userRepList.size() == 1)
-            return userRepList.get(0);
+            return UserUtils.usrOf(userRepList.get(0));
         else
             throw new IllegalStateException("Found more than one user");
     }
 
     @Override
-    public List<UserRepresentation> searchByUsername(@NonNull String username, @NonNull Page page) {
-        return keycloak.realm(realm).users().search(username, page.startIndex(), page.pageSize,true);
+    public List<UserInfo> searchByUsername(@NonNull String username, @NonNull Page page) {
+        return UserUtils.usrInfLstOf(keycloak.realm(realm).users().search(username, page.startIndex(), page.pageSize, true));
     }
 
 }
