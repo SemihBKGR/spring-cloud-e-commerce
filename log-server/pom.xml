@@ -16,9 +16,14 @@
         <final-jar-name>log</final-jar-name>
     </properties>
 
-
     <build>
         <finalName>${final-jar-name}</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 
 </project>
