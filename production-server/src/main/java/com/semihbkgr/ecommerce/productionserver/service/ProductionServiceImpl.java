@@ -1,11 +1,14 @@
 package com.semihbkgr.ecommerce.productionserver.service;
 
 import com.semihbkgr.ecommerce.modelcommon.production.Production;
+import com.semihbkgr.ecommerce.modelcommon.production.ProductionInfo;
 import com.semihbkgr.ecommerce.productionserver.component.IdGenerator;
 import com.semihbkgr.ecommerce.productionserver.repository.ProductionRepository;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -28,6 +31,11 @@ public class ProductionServiceImpl implements ProductionService {
     @Override
     public Mono<Production> findById(@NonNull String id) {
         return productionRepository.findById(id);
+    }
+
+    @Override
+    public Flux<ProductionInfo> findAllInfos(@NonNull Pageable pageable) {
+        return productionRepository.findAllBy(pageable);
     }
 
     @Override

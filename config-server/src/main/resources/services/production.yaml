@@ -4,7 +4,7 @@ server:
 spring:
   data:
     mongodb:
-      host: ${MONGODB_HOSTNAME:mongodb}
+      host: ${MONGODB_HOSTNAME:localhost}
       port: ${MONGODB_PORT:27017}
       database: ${MONGODB_DATABASE:production}
       username: ${MONGODB_USERNAME:root}
