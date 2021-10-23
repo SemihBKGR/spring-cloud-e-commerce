@@ -15,7 +15,7 @@
     <properties>
         <final-jar-name>log</final-jar-name>
     </properties>
-
+    
     <build>
         <finalName>${final-jar-name}</finalName>
         <plugins>
