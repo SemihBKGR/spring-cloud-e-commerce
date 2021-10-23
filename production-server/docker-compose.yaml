@@ -1,0 +1,19 @@
+version: '3.9'
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: ecom-production-server-mongodb
+    hostname: mongodb
+    environment:
+      MONGO_INITDB_DATABASE: production
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - ./volumes/mongo/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    ports:
+      - 27017:27017
+    networks:
+      - ecom-production-server-network
+networks:
+  ecom-production-server-network:
+    driver: bridge
