@@ -24,6 +24,7 @@ public class UserController {
     public String findUserByUsername(@PathVariable("username") String username, HttpServletRequest request, Model model) {
         var user = userClient.findByUsername(username, HeaderUtils.getAuthenticationHeader(request));
         log.debug("findUserByUsername, username: {}, isUserNonNull: {}", username, user != null);
+        model.addAttribute("username",username);
         model.addAttribute("user", user);
         return "user-profile";
     }
@@ -32,6 +33,7 @@ public class UserController {
     public String searchUserByUsername(@PathVariable("username") String username, HttpServletRequest request, Model model) {
         var userInfoList = userClient.searchByUsername(username, HeaderUtils.getAuthenticationHeader(request));
         log.debug("searchUserByUsername, username: {}, userInfoListSize: {}", username, userInfoList.size());
+        model.addAttribute("username",username);
         model.addAttribute("userInfoList", userInfoList);
         return "user-search";
     }

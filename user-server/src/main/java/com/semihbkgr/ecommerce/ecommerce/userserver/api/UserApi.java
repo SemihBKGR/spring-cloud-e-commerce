@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -21,15 +20,11 @@ public class UserApi {
 
     private final UserService userService;
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/find/{username}")
-    public User findUserByUsername(@PathVariable("username") String username,
-                                   HttpServletResponse response) {
+    public User findUserByUsername(@PathVariable("username") String username) {
         var user = userService.findByUsername(username);
         log.debug("findUserByUsername, username: {}, isUserNonNull: {}", username, user != null);
-        if (user == null)
-            response.setStatus(HttpStatus.NOT_FOUND.value());
-        else
-            response.setStatus(HttpStatus.OK.value());
         return user;
     }
 
