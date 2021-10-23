@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 9000
 spring:
   cloud:
     gateway:
@@ -14,9 +14,7 @@ spring:
           lower-case-service-id: 'true'
 eureka:
   client:
-    fetchRegistry: 'true'
-    registerWithEureka: 'false'
+    fetchRegistry: true
+    registerWithEureka: false
     serviceUrl:
       defaultZone: http://${DISCOVERT_SERVER_ADDRESS:localhost}:${DISCOVERT_SERVER_PORT:8761}/eureka/
-  instance:
-    preferIpAddress: 'true'
