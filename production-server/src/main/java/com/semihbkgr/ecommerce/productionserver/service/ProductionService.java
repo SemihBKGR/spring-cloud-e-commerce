@@ -1,13 +1,16 @@
 package com.semihbkgr.ecommerce.productionserver.service;
 
-import com.semihbkgr.ecommerce.productionserver.document.ProductionDocument;
+import com.semihbkgr.ecommerce.modelcommon.production.Production;
+import reactor.core.publisher.Mono;
 
 public interface ProductionService {
 
-    ProductionDocument save(ProductionDocument production);
+    Mono<Production> save(Production production);
 
-    ProductionDocument findById(String id);
+    Mono<Production> update(String id,Production production);
 
+    Mono<Production> findById(String id);
 
+    Mono<Void> deleteById(String id);
 
 }
