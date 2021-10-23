@@ -8,7 +8,7 @@ import org.springframework.data.annotation.Id;
 @NoArgsConstructor
 @Builder
 @With
-public class Production {
+public class ProductionInfo {
 
     @Id
     private String id;
@@ -16,6 +16,5 @@ public class Production {
     private String name;
     private float price;
     private int stock;
-    private String description;
 
 }

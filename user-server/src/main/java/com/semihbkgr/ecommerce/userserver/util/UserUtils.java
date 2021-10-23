@@ -24,7 +24,6 @@ public class UserUtils {
                 .username(userRep.getUsername())
                 .firstname(userRep.getFirstName())
                 .lastname(userRep.getLastName())
-                .email(userRep.getEmail())
                 .build();
     }
 
