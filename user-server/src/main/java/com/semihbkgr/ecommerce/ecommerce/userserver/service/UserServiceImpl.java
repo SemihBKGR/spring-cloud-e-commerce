@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
             throw new IllegalStateException("Found more than one user");
     }
 
+    @org.springframework.lang.NonNull
     @Override
     public List<UserInfo> searchByUsername(@NonNull String username, @NonNull Page page) {
         return UserUtils.usrInfLstOf(keycloak.realm(realm).users().search(username, page.startIndex(), page.pageSize, true));
