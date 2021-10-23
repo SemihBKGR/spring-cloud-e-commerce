@@ -1,4 +1,4 @@
-package com.semihbkgr.ecommerce.ecommerce.userserver.config;
+package com.semihbkgr.ecommerce.userserver.config;
 
 import org.keycloak.adapters.KeycloakConfigResolver;
 import org.keycloak.adapters.springboot.KeycloakSpringBootConfigResolver;

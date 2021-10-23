@@ -1,7 +1,7 @@
-package com.semihbkgr.ecommerce.ecommerce.userserver.service;
+package com.semihbkgr.ecommerce.userserver.service;
 
-import com.semihbkgr.ecommerce.ecommerce.userserver.util.Page;
-import com.semihbkgr.ecommerce.ecommerce.userserver.util.UserUtils;
+import com.semihbkgr.ecommerce.userserver.util.Page;
+import com.semihbkgr.ecommerce.userserver.util.UserUtils;
 import com.semihbkgr.ecommerce.modelcommon.user.User;
 import com.semihbkgr.ecommerce.modelcommon.user.UserInfo;
 import lombok.NonNull;

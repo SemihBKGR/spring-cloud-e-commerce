@@ -1,4 +1,4 @@
-package com.semihbkgr.ecommerce.ecommerce.userserver.config;
+package com.semihbkgr.ecommerce.userserver.config;
 
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.OAuth2Constants;

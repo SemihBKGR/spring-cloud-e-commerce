@@ -1,4 +1,4 @@
-package com.semihbkgr.ecommerce.ecommerce.userserver.util;
+package com.semihbkgr.ecommerce.userserver.util;
 
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.semihbkgr.ecommerce.ecommerce.userserver.util;
+package com.semihbkgr.ecommerce.userserver.util;
 
 import com.semihbkgr.ecommerce.modelcommon.user.User;
 import com.semihbkgr.ecommerce.modelcommon.user.UserInfo;

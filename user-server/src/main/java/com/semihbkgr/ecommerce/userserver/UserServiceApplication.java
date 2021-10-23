@@ -1,4 +1,4 @@
-package com.semihbkgr.ecommerce.ecommerce.userserver;
+package com.semihbkgr.ecommerce.userserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
