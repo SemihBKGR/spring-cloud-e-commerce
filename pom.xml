@@ -23,6 +23,7 @@
         <module>log-server</module>
         <module>ui-server</module>
         <module>model-common</module>
+        <module>production-server</module>
     </modules>
 
     <properties>
