@@ -16,10 +16,12 @@ public interface UserClient {
 
     @Nullable
     @GetMapping("/find/{username}")
-    User findByUsername(@PathVariable("username") String username, @RequestHeader("Authorization") String authorization);
+    User findByUsername(@PathVariable("username") String username,
+                        @RequestHeader("Authorization") String authorization);
 
     @NonNull
     @GetMapping("/search/{username}")
-    List<UserInfo> searchByUsername(@PathVariable("username") String username, @RequestHeader("Authorization") String authorization);
+    List<UserInfo> searchByUsername(@PathVariable("username") String username,
+                                    @RequestHeader("Authorization") String authorization);
 
 }
