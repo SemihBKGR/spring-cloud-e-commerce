@@ -17,7 +17,7 @@ public class KafkaProductionLogSenderImpl implements KafkaProductionLogSender {
 
     private final ReactiveKafkaProducerTemplate<Object, Object> kafkaProducerTemplate;
 
-    @Value("${kafka.topics.log:log}")
+    @Value("${kafka.topics.log}")
     private String logTopic;
 
     @Override

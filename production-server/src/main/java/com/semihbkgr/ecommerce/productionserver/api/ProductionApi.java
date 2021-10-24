@@ -25,16 +25,19 @@ public class ProductionApi {
     @PostMapping
     public Mono<Production> save(@RequestBody Production production) {
         return productionService.save(production)
-                .flatMap(savedProduction -> kafkaProductionLogProducer
+                .flatMap(productionFromDb -> kafkaProductionLogProducer
                         .log(KafkaProductionLogSender.ProductionActionType.CREATE, production)
-                        .thenReturn(savedProduction));
+                        .thenReturn(productionFromDb));
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/{production-id}")
     public Mono<Production> update(@PathVariable("production-id") String productionId,
                                    @RequestBody Production production) {
-        return productionService.update(productionId, production);
+        return productionService.update(productionId, production)
+                .flatMap(productionFromDb -> kafkaProductionLogProducer
+                        .log(KafkaProductionLogSender.ProductionActionType.UPDATE, production)
+                        .thenReturn(productionFromDb));
     }
 
     @ResponseStatus(HttpStatus.OK)
