@@ -8,7 +8,8 @@ spring:
       port: ${MONGODB_PORT:27017}
       database: ${MONGODB_DATABASE:production}
       username: ${MONGODB_USERNAME:root}
-      password: ${MONGODB_PASSWORD:production}
+      password: ${MONGODB_PASSWORD:password}
+      authentication-database: admin
       auto-index-creation: true
 
 eureka:

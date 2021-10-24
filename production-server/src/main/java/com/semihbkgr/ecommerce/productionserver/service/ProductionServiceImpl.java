@@ -20,12 +20,19 @@ public class ProductionServiceImpl implements ProductionService {
 
     @Override
     public Mono<Production> save(@NonNull Production production) {
-        return productionRepository.insert(production.withId(idGenerator.generate()));
+        return productionRepository.save(production.withId(idGenerator.generate()));
     }
 
     @Override
     public Mono<Production> update(@NonNull String id, @NonNull Production production) {
-        return productionRepository.insert(production.withId(id));
+        return productionRepository.findById(id)
+                .flatMap(productionFromDb->{
+                    productionFromDb.setName(production.getName());
+                    productionFromDb.setPrice(production.getPrice());
+                    productionFromDb.setStock(production.getStock());
+                    productionFromDb.setDescription(production.getDescription());
+                    return productionRepository.save(productionFromDb);
+                });
     }
 
     @Override
