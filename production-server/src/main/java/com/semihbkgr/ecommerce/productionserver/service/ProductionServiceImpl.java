@@ -25,8 +25,8 @@ public class ProductionServiceImpl implements ProductionService {
 
     @Override
     public Mono<Production> update(@NonNull String id, @NonNull Production production) {
-        return productionRepository.findById(id)
-                .flatMap(productionFromDb->{
+        return findById(id)
+                .flatMap(productionFromDb -> {
                     productionFromDb.setName(production.getName());
                     productionFromDb.setPrice(production.getPrice());
                     productionFromDb.setStock(production.getStock());
@@ -47,7 +47,8 @@ public class ProductionServiceImpl implements ProductionService {
 
     @Override
     public Mono<Void> deleteById(@NonNull String id) {
-        return productionRepository.deleteById(id);
+        return findById(id)
+                .flatMap(production -> productionRepository.deleteById(id));
     }
 
 }
