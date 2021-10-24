@@ -141,7 +141,8 @@ class ProductionApiTest {
                 .exchange()
                 .expectStatus()
                 .isAccepted()
-                .expectBody(Void.class);
+                .expectBody(Production.class)
+                .isEqualTo(production);
         Mockito.verify(productionRepository, Mockito.times(1))
                 .findById("test-production-id");
         Mockito.verify(productionRepository, Mockito.times(1))

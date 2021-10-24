@@ -54,8 +54,11 @@ public class ProductionApi {
 
     @ResponseStatus(HttpStatus.ACCEPTED)
     @DeleteMapping("/{production-id}")
-    public Mono<Void> deleteById(@PathVariable("production-id") String productionId) {
-        return productionService.deleteById(productionId);
+    public Mono<Production> deleteById(@PathVariable("production-id") String productionId) {
+        return productionService.deleteById(productionId)
+                .flatMap(productionFromDb -> kafkaProductionLogProducer
+                        .log(KafkaProductionLogSender.ProductionActionType.UPDATE, productionFromDb)
+                        .thenReturn(productionFromDb));
     }
 
 }

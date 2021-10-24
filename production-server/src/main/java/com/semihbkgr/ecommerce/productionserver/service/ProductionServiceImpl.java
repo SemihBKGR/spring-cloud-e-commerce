@@ -46,9 +46,11 @@ public class ProductionServiceImpl implements ProductionService {
     }
 
     @Override
-    public Mono<Void> deleteById(@NonNull String id) {
+    public Mono<Production> deleteById(@NonNull String id) {
         return findById(id)
-                .flatMap(production -> productionRepository.deleteById(id));
+                .flatMap(productionFromDb ->
+                        productionRepository.deleteById(id)
+                                .thenReturn(productionFromDb));
     }
 
 }
