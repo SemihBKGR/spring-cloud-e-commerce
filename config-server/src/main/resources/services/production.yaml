@@ -23,4 +23,7 @@ keycloak:
   resource: common-client
   public-client: true
 
-
+kafka:
+  bootstrap-server: localhost:29092
+  topics:
+    log: log

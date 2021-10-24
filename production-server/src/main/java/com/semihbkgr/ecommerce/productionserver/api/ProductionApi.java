@@ -2,6 +2,7 @@ package com.semihbkgr.ecommerce.productionserver.api;
 
 import com.semihbkgr.ecommerce.modelcommon.production.Production;
 import com.semihbkgr.ecommerce.modelcommon.production.ProductionInfo;
+import com.semihbkgr.ecommerce.productionserver.component.KafkaProductionLogSender;
 import com.semihbkgr.ecommerce.productionserver.service.ProductionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -18,11 +19,15 @@ public class ProductionApi {
     public static final int DEFAULT_PRODUCTION_PAGE_SIZE = 5;
 
     private final ProductionService productionService;
+    private final KafkaProductionLogSender kafkaProductionLogProducer;
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public Mono<Production> save(@RequestBody Production production) {
-        return productionService.save(production);
+        return productionService.save(production)
+                .flatMap(savedProduction -> kafkaProductionLogProducer
+                        .log(KafkaProductionLogSender.ProductionActionType.CREATE, production)
+                        .thenReturn(savedProduction));
     }
 
     @ResponseStatus(HttpStatus.ACCEPTED)
