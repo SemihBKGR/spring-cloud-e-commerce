@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletRequest;
 
+@Slf4j
 @Controller
 @RequestMapping("/user")
 @RequiredArgsConstructor
-@Slf4j
 public class UserController {
 
     private final UserClient userClient;
 
     @GetMapping("/find/{username}")
-    public String findUserByUsername(@PathVariable("username") String username, HttpServletRequest request, Model model) {
+    public String findUserByUsername(@PathVariable("username") String username,HttpServletRequest request, Model model) {
         var user = userClient.findByUsername(username, HeaderUtils.getAuthenticationHeader(request));
         log.debug("findUserByUsername, username: {}, isUserNonNull: {}", username, user != null);
         model.addAttribute("username",username);
