@@ -46,6 +46,11 @@ public class ProductionServiceImpl implements ProductionService {
     }
 
     @Override
+    public Flux<ProductionInfo> searchByName(@NonNull String name,@NonNull Pageable pageable) {
+        return productionRepository.findAllByNameContaining(name,pageable);
+    }
+
+    @Override
     public Mono<Production> deleteById(@NonNull String id) {
         return findById(id)
                 .flatMap(productionFromDb ->

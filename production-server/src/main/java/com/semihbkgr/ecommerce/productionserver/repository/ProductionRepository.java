@@ -10,4 +10,6 @@ public interface ProductionRepository extends ReactiveMongoRepository<Production
 
     Flux<ProductionInfo> findAllBy(Pageable pageable);
 
+    Flux<ProductionInfo> findAllByNameContaining(String name,Pageable pageable);
+
 }

@@ -52,6 +52,13 @@ public class ProductionApi {
         return productionService.findAllInfos(PageRequest.of(page, DEFAULT_PRODUCTION_PAGE_SIZE).withSort(Sort.by("name").ascending()));
     }
 
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/search")
+    public Flux<ProductionInfo> searchByName(@RequestParam("s") String search,
+                                             @RequestParam(value = "p",required = false,defaultValue = "0") int page){
+        return productionService.searchByName(search,PageRequest.of(page, DEFAULT_PRODUCTION_PAGE_SIZE).withSort(Sort.by("name").ascending()));
+    }
+
     @ResponseStatus(HttpStatus.ACCEPTED)
     @DeleteMapping("/{production-id}")
     public Mono<Production> deleteById(@PathVariable("production-id") String productionId) {
