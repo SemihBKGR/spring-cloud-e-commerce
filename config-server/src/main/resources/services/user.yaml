@@ -9,6 +9,7 @@ keycloak:
   realm: ecom
   auth-server-url: http://${KEYCLOAK_URL:localhost}:${KEYCLOAK.PORT:8080}/auth
   resource: common-client
+  ssl-required: none
   public-client: true
 
 # Keycloak SpringBoot api uses @ConfigurationProperties for configuration.
