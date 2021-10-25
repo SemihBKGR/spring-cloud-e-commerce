@@ -3,5 +3,5 @@ MAINTAINER semihbkgr
 RUN mkdir app
 COPY ./target/ui.jar /app/app.jar
 WORKDIR /app
-EXPOSE 9999
+EXPOSE 8090
 ENTRYPOINT ["java","-jar","app.jar"]
