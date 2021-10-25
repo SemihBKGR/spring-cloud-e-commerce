@@ -1,4 +1,4 @@
-package com.semihbkgr.logserver.ecommerce;
+package com.semihbkgr.ecommerce.logserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

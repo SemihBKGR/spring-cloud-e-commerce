@@ -1,7 +1,7 @@
-package com.semihbkgr.logserver.ecommerce.config;
+package com.semihbkgr.ecommerce.logserver.config;
 
 import com.semihbkgr.ecommerce.modelcommon.message.LogMessage;
-import com.semihbkgr.logserver.ecommerce.component.LogMessageLogger;
+import com.semihbkgr.ecommerce.logserver.component.LogMessageLogger;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;

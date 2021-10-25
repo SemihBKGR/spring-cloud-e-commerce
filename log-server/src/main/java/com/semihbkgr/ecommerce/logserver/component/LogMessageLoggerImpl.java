@@ -1,4 +1,4 @@
-package com.semihbkgr.logserver.ecommerce.component;
+package com.semihbkgr.ecommerce.logserver.component;
 
 import com.semihbkgr.ecommerce.modelcommon.message.LogMessage;
 import lombok.extern.slf4j.Slf4j;
