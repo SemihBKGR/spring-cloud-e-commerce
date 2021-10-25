@@ -24,6 +24,7 @@
         <module>ui-server</module>
         <module>model-common</module>
         <module>production-server</module>
+        <module>image-server</module>
     </modules>
 
     <properties>
