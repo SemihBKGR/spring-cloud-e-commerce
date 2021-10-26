@@ -1,6 +1,17 @@
 server:
   port: 9030
 
+spring:
+  data:
+    mongodb:
+      host: ${MONGODB_HOSTNAME:localhost}
+      port: ${MONGODB_PORT:27017}
+      database: ${MONGODB_DATABASE:image}
+      username: ${MONGODB_USERNAME:root}
+      password: ${MONGODB_PASSWORD:password}
+      authentication-database: admin
+      auto-index-creation: true
+
 eureka:
   client:
     serviceUrl:
