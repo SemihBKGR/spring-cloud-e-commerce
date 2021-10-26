@@ -53,6 +53,28 @@ services:
       - ${GATEWAY_PORT}:${GATEWAY_PORT}
     networks:
       - ecom-network
+  ui:
+    image: ecom-ui-server:latest
+    restart: always
+    container_name: ecom-ui-server
+    hostname: ${UI_HOSTNAME}
+    depends_on:
+      - gateway
+      - user
+      - keycloak
+    environment:
+      server.port: ${UI_PORT}
+      spring.profiles.active: ${UI_SPRING_PROFILES}
+      CONFIG_SERVER_ADDRESS: ${CONFIG_HOSTNAME}
+      CONFIG_SERVER_PORT: ${CONFIG_PORT}
+      DISCOVERY_SERVER_ADDRESS: ${DISCOVERY_HOSTNAME}
+      DISCOVERY_SERVER_PORT: ${DISCOVERY_PORT}
+    expose:
+      - ${UI_PORT}
+    ports:
+      - ${UI_PORT}:${UI_PORT}
+    networks:
+      - ecom-network
   user:
     image: ecom-user-server:latest
     restart: always
@@ -74,26 +96,57 @@ services:
       - ${USER_PORT}:${USER_PORT}
     networks:
       - ecom-network
-  ui:
-    image: ecom-ui-server:latest
+  production:
+    image: ecom-production-server:latest
     restart: always
-    container_name: ecom-ui-server
-    hostname: ${UI_HOSTNAME}
+    container_name: ecom-production-server
+    hostname: ${USER_HOSTNAME}
     depends_on:
-      - config
       - user
-      - keycloak
     environment:
-      server.port: ${UI_PORT}
-      spring.profiles.active: ${UI_SPRING_PROFILES}
+      server.port: ${PRODUCTION_PORT}
+      spring.profiles.active: ${PRODUCTION_SPRING_PROFILES}
       CONFIG_SERVER_ADDRESS: ${CONFIG_HOSTNAME}
       CONFIG_SERVER_PORT: ${CONFIG_PORT}
       DISCOVERY_SERVER_ADDRESS: ${DISCOVERY_HOSTNAME}
       DISCOVERY_SERVER_PORT: ${DISCOVERY_PORT}
     expose:
-      - ${UI_PORT}
+      - ${PRODUCTION_PORT}
     ports:
-      - ${UI_PORT}:${UI_PORT}
+      - ${PRODUCTION_PORT}:${PRODUCTION_PORT}
+    networks:
+      - ecom-network
+  image:
+    image: ecom-image-server:latest
+    restart: always
+    container_name: ecom-image-server
+    hostname: ${IMAGE_HOSTNAME}
+    depends_on:
+      - user
+    environment:
+      server.port: ${IMAGE_PORT}
+      spring.profiles.active: ${IMAGE_SPRING_PROFILES}
+      CONFIG_SERVER_ADDRESS: ${CONFIG_HOSTNAME}
+      CONFIG_SERVER_PORT: ${CONFIG_PORT}
+      DISCOVERY_SERVER_ADDRESS: ${DISCOVERY_HOSTNAME}
+      DISCOVERY_SERVER_PORT: ${DISCOVERY_PORT}
+    expose:
+      - ${IMAGE_PORT}
+    ports:
+      - ${IMAGE_PORT}:${IMAGE_PORT}
+    networks:
+      - ecom-network
+  mongodb:
+    image: mongo:latest
+    container_name: ecom-image-server-mongodb
+    hostname: ${MONGODB_HOSTNAME}
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - ./volumes/mongodb/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    ports:
+      - ${MONGODB_PORT}:${MONGODB_PORT}
     networks:
       - ecom-network
   postgres:
