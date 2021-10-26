@@ -1,10 +1,9 @@
-package com.semihbkgr.ecommerce.modelcommon.production;
+package com.semihbkgr.ecommerce.modelcommon.image;
 
 import com.semihbkgr.ecommerce.modelcommon.auditable.PersonAuditable;
 import com.semihbkgr.ecommerce.modelcommon.auditable.TimeAuditable;
 import lombok.*;
 import org.springframework.data.annotation.*;
-import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
@@ -12,18 +11,16 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @Builder
 @With
-@Document("productions")
-public class Production implements PersonAuditable, TimeAuditable {
+@Document("profile_images")
+public class ProfileImage implements PersonAuditable, TimeAuditable {
 
     @Id
     private String id;
 
-    @Indexed
-    private String owner;
-    private String name;
-    private float price;
-    private int stock;
-    private String description;
+    private String extension;
+    private long size;
+    private int width;
+    private int height;
 
     @CreatedDate
     private long createdAt;
