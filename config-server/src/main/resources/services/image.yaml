@@ -28,3 +28,11 @@ kafka:
   bootstrap-server: localhost:29092
   topics:
     log: log
+
+
+image:
+  content:
+    profile:
+      root-dir-path: ./images/profile
+    production:
+      root-dir-path: ./images/production
