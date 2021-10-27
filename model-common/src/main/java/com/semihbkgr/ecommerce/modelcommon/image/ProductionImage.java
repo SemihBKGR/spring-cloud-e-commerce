@@ -23,8 +23,6 @@ public class ProductionImage implements PersonAuditable, TimeAuditable {
     private int displayOrder;
     private String extension;
     private long size;
-    private int width;
-    private int height;
 
     @CreatedDate
     private long createdAt;

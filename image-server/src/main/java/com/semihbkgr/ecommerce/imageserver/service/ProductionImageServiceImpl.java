@@ -27,8 +27,6 @@ public class ProductionImageServiceImpl implements ProductionImageService {
                 .flatMap(imageFromDb -> {
                     imageFromDb.setDisplayOrder(image.getDisplayOrder());
                     imageFromDb.setSize(image.getSize());
-                    imageFromDb.setWidth(image.getWidth());
-                    imageFromDb.setHeight(image.getHeight());
                     return productionImageRepository.save(imageFromDb);
                 });
     }

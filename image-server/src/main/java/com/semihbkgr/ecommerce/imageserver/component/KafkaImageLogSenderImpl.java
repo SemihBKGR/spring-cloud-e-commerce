@@ -1,6 +1,7 @@
 package com.semihbkgr.ecommerce.imageserver.component;
 
-import com.semihbkgr.ecommerce.modelcommon.image.Image;
+import com.semihbkgr.ecommerce.modelcommon.image.ProductionImage;
+import com.semihbkgr.ecommerce.modelcommon.image.ProfileImage;
 import com.semihbkgr.ecommerce.modelcommon.message.LogMessage;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -20,18 +21,30 @@ public class KafkaImageLogSenderImpl implements KafkaImageLogSender {
     @Value("${kafka.topics.log}")
     private String logTopic;
 
+
     @Override
-    public Mono<SenderResult<Void>> log(@NonNull ActionType type, @NonNull Image image) {
-        return kafkaProducerTemplate.send(logTopic, logMessageOf(type, image, null));
+    public Mono<SenderResult<Void>> log(ActionType type, @NonNull ProfileImage image, @Nullable String actionBy) {
+        return kafkaProducerTemplate.send(logTopic, logMessageOf(type, image, actionBy));
     }
 
     @Override
-    public Mono<SenderResult<Void>> log(ActionType type, @NonNull Image image, @Nullable String actionBy) {
+    public Mono<SenderResult<Void>> log(ActionType type, @NonNull ProductionImage image, @Nullable String actionBy) {
         return kafkaProducerTemplate.send(logTopic, logMessageOf(type, image, actionBy));
     }
 
     private LogMessage logMessageOf(@NonNull KafkaImageLogSender.ActionType type,
-                                    @NonNull Image image,
+                                    @NonNull ProfileImage image,
+                                    @Nullable String actionBy) {
+        return LogMessage.builder()
+                .actionType(type.name())
+                .actionBy(actionBy)
+                .actionData(image)
+                .timeMs(System.currentTimeMillis())
+                .build();
+    }
+
+    private LogMessage logMessageOf(@NonNull KafkaImageLogSender.ActionType type,
+                                    @NonNull ProductionImage image,
                                     @Nullable String actionBy) {
         return LogMessage.builder()
                 .actionType(type.name())

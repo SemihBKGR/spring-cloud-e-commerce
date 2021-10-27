@@ -17,7 +17,9 @@ public class ProfileImageServiceImpl implements ProfileImageService {
 
     @Override
     public Mono<ProfileImage> save(@NonNull ProfileImage image) {
-        return imageRepository.save(image.withId(idGenerator.generate()));
+        if(image.getId()==null || image.getId().isBlank())
+            return Mono.error(new IllegalArgumentException());
+        return imageRepository.save(image);
     }
 
     @Override
@@ -25,8 +27,6 @@ public class ProfileImageServiceImpl implements ProfileImageService {
         return imageRepository.findById(id)
                 .flatMap(imageFromDb -> {
                     imageFromDb.setExtension(image.getExtension());
-                    imageFromDb.setWidth(image.getWidth());
-                    imageFromDb.setHeight(image.getHeight());
                     imageFromDb.setSize(image.getSize());
                     return imageRepository.save(imageFromDb);
                 });

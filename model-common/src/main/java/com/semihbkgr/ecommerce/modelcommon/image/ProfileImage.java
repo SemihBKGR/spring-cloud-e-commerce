@@ -19,8 +19,6 @@ public class ProfileImage implements PersonAuditable, TimeAuditable {
 
     private String extension;
     private long size;
-    private int width;
-    private int height;
 
     @CreatedDate
     private long createdAt;
