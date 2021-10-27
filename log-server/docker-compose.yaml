@@ -13,7 +13,7 @@ services:
       - ecom-log-server-network
   kafka:
     image: confluentinc/cp-kafka:latest
-    container_name: ecom-production-server-kafka
+    container_name: ecom-log-server-kafka
     hostname: kafka
     depends_on:
       - zookeeper

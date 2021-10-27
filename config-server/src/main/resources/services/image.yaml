@@ -29,7 +29,6 @@ kafka:
   topics:
     log: log
 
-
 image:
   content:
     profile:
