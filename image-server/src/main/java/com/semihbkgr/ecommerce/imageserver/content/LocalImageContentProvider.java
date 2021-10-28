@@ -16,16 +16,17 @@ import java.nio.file.Path;
 @Slf4j
 public class LocalImageContentProvider implements ImageContentProvider {
 
+    private final String name;
     private final Path rootDirPath;
 
     @Override
-    public void save(@NonNull String id, @NonNull MultipartFile file) throws IOException {
-        file.transferTo(rootDirPath.resolve(id));
+    public void save(@NonNull String filename, @NonNull MultipartFile file) throws IOException {
+        file.transferTo(rootDirPath.resolve(filename));
     }
 
     @Override
-    public byte[] get(@NonNull String id) throws IOException {
-        var path = rootDirPath.resolve(id);
+    public byte[] get(@NonNull String filename) throws IOException {
+        var path = rootDirPath.resolve(filename);
         if (!Files.exists(path))
             throw new IllegalStateException();
         try (var b = new BufferedInputStream(new FileInputStream(path.toFile()))) {
@@ -36,23 +37,28 @@ public class LocalImageContentProvider implements ImageContentProvider {
     }
 
     @Override
-    public void delete(@NonNull String id) throws IOException {
-        var path = rootDirPath.resolve(id);
+    public void delete(@NonNull String filename) throws IOException {
+        var path = rootDirPath.resolve(filename);
         if (!Files.exists(path))
             throw new IllegalStateException();
         Files.delete(path);
     }
 
-    public void createRootDirIfNotExists() throws IOException {
-        if (!Files.exists(rootDirPath)) {
-            Files.createDirectories(rootDirPath);
-        }
+    public Path getRootDirPath() {
+        return rootDirPath;
     }
 
-    public void clearRootDir() throws IOException {
-        if (Files.exists(rootDirPath)) {
-            Files.delete(rootDirPath);
+    public String getName() {
+        return name;
+    }
+
+    public void createRootDirIfNotExists() throws IOException {
+        if (!Files.exists(rootDirPath)) {
+            log.info("{}, rootDirPath does not exist",name);
+            Files.createDirectories(rootDirPath);
+            log.info("{}, rootDirPath has been created successfully",name);
         }
+        log.info("{}, rootDirPath: {}",name,rootDirPath);
     }
 
 }

@@ -16,18 +16,14 @@ public class ImageContentConfig {
     @Value("${image.content.production.root-dir-path}")
     private String productionImageContentRootDirPath;
 
-    @Bean(name = "profileImageContentProvider",
-            initMethod = "createRootDirIfNotExists",
-            destroyMethod = "clearRootDir")
+    @Bean(name = "profileImageContentProvider", initMethod = "createRootDirIfNotExists")
     public LocalImageContentProvider profileLocalImageContentProvider() {
-        return new LocalImageContentProvider(Path.of(profileImageContentRootDirPath));
+        return new LocalImageContentProvider("ProfileImageContentProvider", Path.of(profileImageContentRootDirPath));
     }
 
-    @Bean(name = "productionImageContentProvider",
-            initMethod = "createRootDirIfNotExists",
-            destroyMethod = "clearRootDir")
+    @Bean(name = "productionImageContentProvider", initMethod = "createRootDirIfNotExists")
     public LocalImageContentProvider productionLocalImageContentProvider() {
-        return new LocalImageContentProvider(Path.of(productionImageContentRootDirPath));
+        return new LocalImageContentProvider("ProductionImageContentProvider", Path.of(productionImageContentRootDirPath));
     }
 
 }

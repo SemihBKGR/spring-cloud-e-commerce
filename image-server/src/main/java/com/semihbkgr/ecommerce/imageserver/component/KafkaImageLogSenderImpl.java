@@ -22,17 +22,17 @@ public class KafkaImageLogSenderImpl implements KafkaImageLogSender {
     private String logTopic;
 
     @Override
-    public ListenableFuture<SendResult<Object, Object>> log(ActionType type, ProfileImage image, String actionBy) {
-        return kafkaTemplate.send("log", logMessageOf(type, image, actionBy));
+    public ListenableFuture<SendResult<Object, Object>> log(ProfileActionType type, ProfileImage image, String actionBy) {
+        return kafkaTemplate.send(logTopic, logMessageOf(type, image, actionBy));
     }
 
     @Override
-    public ListenableFuture<SendResult<Object, Object>> log(ActionType type, ProductionImage image, String actionBy) {
-        return kafkaTemplate.send("log", logMessageOf(type, image, actionBy));
+    public ListenableFuture<SendResult<Object, Object>> log(ProductionActionType type, ProductionImage image, String actionBy) {
+        return kafkaTemplate.send(logTopic, logMessageOf(type, image, actionBy));
     }
 
-    private LogMessage logMessageOf(@NonNull KafkaImageLogSender.ActionType type,
-                                    @NonNull ProductionImage image,
+    private LogMessage logMessageOf(@NonNull ProfileActionType type,
+                                    @NonNull ProfileImage image,
                                     @Nullable String actionBy) {
         return LogMessage.builder()
                 .actionType(type.name())
@@ -42,8 +42,8 @@ public class KafkaImageLogSenderImpl implements KafkaImageLogSender {
                 .build();
     }
 
-    private LogMessage logMessageOf(@NonNull KafkaImageLogSender.ActionType type,
-                                    @NonNull ProfileImage image,
+    private LogMessage logMessageOf(@NonNull ProductionActionType type,
+                                    @NonNull ProductionImage image,
                                     @Nullable String actionBy) {
         return LogMessage.builder()
                 .actionType(type.name())

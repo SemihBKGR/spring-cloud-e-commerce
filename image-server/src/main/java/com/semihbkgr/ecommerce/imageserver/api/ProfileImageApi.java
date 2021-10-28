@@ -38,35 +38,48 @@ public class ProfileImageApi {
     @ResponseStatus(HttpStatus.CREATED)
     public ProfileImage load(@RequestParam("content") MultipartFile file, HttpServletRequest request) throws IOException {
         var username = PrincipalUtils.getUsername(request);
-        var extension = FilenameUtils.extractExtension(file.getOriginalFilename());
+        var extension = FilenameUtils.detachExtension(file.getOriginalFilename());
         var image = ProfileImage.builder()
                 .id(username)
                 .extension(extension)
                 .size(file.getSize())
                 .build();
         var imageFromDb = profileImageService.save(image);
-        imageContentProvider.save(username, file);
+        imageContentProvider.save(FilenameUtils.attachExtension(username, extension), file);
         kafkaImageLogSender.log(KafkaImageLogSender.ProfileActionType.LOAD, imageFromDb, username);
         return imageFromDb;
     }
 
-    @GetMapping(produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public byte[] get(HttpServletRequest request) throws IOException {
+    public ProfileImage get(HttpServletRequest request) {
+        var username = PrincipalUtils.getUsername(request);
+        return profileImageService.findById(username);
+    }
+
+    @GetMapping(path = "/content", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    @ResponseStatus(HttpStatus.OK)
+    public byte[] getContent(HttpServletRequest request) throws IOException {
         var username = PrincipalUtils.getUsername(request);
         var image = profileImageService.findById(username);
         if (image == null)
             return new byte[0];
-        return imageContentProvider.get(username);
+        return imageContentProvider.get(FilenameUtils.attachExtension(image.getId(), image.getExtension()));
     }
 
-    @GetMapping(value = "/{username}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    @GetMapping("/{username}")
     @ResponseStatus(HttpStatus.OK)
-    public byte[] get(@PathVariable("username") String username) throws IOException {
+    public ProfileImage get(@PathVariable("username") String username) {
+        return profileImageService.findById(username);
+    }
+
+    @GetMapping(value = "/content/{username}", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    @ResponseStatus(HttpStatus.OK)
+    public byte[] getContent(@PathVariable("username") String username) throws IOException {
         var image = profileImageService.findById(username);
         if (image == null)
             return new byte[0];
-        return imageContentProvider.get(username);
+        return imageContentProvider.get(FilenameUtils.attachExtension(image.getId(), image.getExtension()));
     }
 
     @DeleteMapping
@@ -76,7 +89,7 @@ public class ProfileImageApi {
         var image = profileImageService.deleteById(username);
         if (image == null)
             return null;
-        imageContentProvider.delete(username);
+        imageContentProvider.delete(FilenameUtils.attachExtension(image.getId(), image.getExtension()));
         kafkaImageLogSender.log(KafkaImageLogSender.ProfileActionType.DELETE, image, username);
         return image;
     }
