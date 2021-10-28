@@ -24,14 +24,6 @@ public class LocalImageContentProvider implements ImageContentProvider {
     }
 
     @Override
-    public void update(@NonNull String id, @NonNull MultipartFile file) throws IOException {
-        var path = rootDirPath.resolve(id);
-        if (!Files.exists(path))
-            throw new IllegalStateException();
-        file.transferTo(path);
-    }
-
-    @Override
     public byte[] get(@NonNull String id) throws IOException {
         var path = rootDirPath.resolve(id);
         if (!Files.exists(path))

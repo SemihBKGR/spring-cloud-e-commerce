@@ -21,17 +21,6 @@ public class ProfileImageServiceImpl implements ProfileImageService {
     }
 
     @Override
-    public ProfileImage update(@NonNull String id, @NonNull ProfileImage image) {
-        var imageFromDbOpt = imageRepository.findById(id);
-        if (imageFromDbOpt.isEmpty())
-            return null;
-        var imageFromDb = imageFromDbOpt.get();
-        imageFromDb.setExtension(image.getExtension());
-        imageFromDb.setSize(image.getSize());
-        return imageRepository.save(imageFromDb);
-    }
-
-    @Override
     public ProfileImage findById(@NonNull String id) {
         var imageFromDbOpt = imageRepository.findById(id);
         if (imageFromDbOpt.isEmpty())

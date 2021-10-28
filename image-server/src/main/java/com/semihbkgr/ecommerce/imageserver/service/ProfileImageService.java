@@ -6,8 +6,6 @@ public interface ProfileImageService {
 
     ProfileImage save(ProfileImage image);
 
-    ProfileImage update(String id, ProfileImage image);
-
     ProfileImage findById(String id);
 
     ProfileImage deleteById(String id);

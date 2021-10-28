@@ -9,8 +9,6 @@ public interface ImageContentProvider {
 
     void save(String id, MultipartFile content) throws IOException;
 
-    void update(String id, MultipartFile content) throws IOException;
-
     byte[] get(String id) throws IOException;
 
     void delete(String id) throws IOException;
