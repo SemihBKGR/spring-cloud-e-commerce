@@ -14,6 +14,8 @@ import org.springframework.web.context.request.WebRequest;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import javax.websocket.server.PathParam;
+
 @RestController
 @RequiredArgsConstructor
 public class ProductionApi {
@@ -23,22 +25,34 @@ public class ProductionApi {
     private final ProductionService productionService;
     private final KafkaProductionLogSender kafkaProductionLogProducer;
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{production-id}")
+    @ResponseStatus(HttpStatus.OK)
     public Mono<Production> findById(@PathVariable("production-id") String productionId) {
         return productionService.findById(productionId);
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public Flux<ProductionInfo> findAll(@RequestParam(value = "p", required = false, defaultValue = "0") int page) {
+    @ResponseStatus(HttpStatus.OK)
+    public Flux<ProductionInfo> findAllInfos(@RequestParam(value = "p", required = false, defaultValue = "0") int page) {
+        page=Math.max(page,0);
         return productionService.findAllInfos(
                 PageRequest.of(page, DEFAULT_PRODUCTION_PAGE_SIZE)
                         .withSort(Sort.by("name").ascending()));
     }
 
+    @GetMapping("/owner/{owner}")
     @ResponseStatus(HttpStatus.OK)
+    public Flux<ProductionInfo> findAllInfosByOwner(@PathVariable("owner") String owner,
+                                                    @RequestParam(value = "p",required = false,defaultValue = "0") int page){
+        page=Math.max(page,0);
+        return productionService.findAllInfosByOwner(owner,
+                PageRequest.of(0,DEFAULT_PRODUCTION_PAGE_SIZE)
+                        .withPage(page)
+                        .withSort(Sort.by("createdAt").descending()));
+    }
+
     @GetMapping("/search")
+    @ResponseStatus(HttpStatus.OK)
     public Flux<ProductionInfo> searchByName(@RequestParam("s") String search,
                                              @RequestParam(value = "p", required = false, defaultValue = "0") int page) {
         return productionService.searchByName(search,
@@ -46,8 +60,8 @@ public class ProductionApi {
                         .withSort(Sort.by("name").ascending()));
     }
 
-    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Mono<Production> save(@RequestBody Production production, WebRequest request) {
         var username = PrincipalUtils.getUsername(request);
         return productionService.save(username, production)
@@ -57,8 +71,8 @@ public class ProductionApi {
                                 .thenReturn(productionFromDb));
     }
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
     @PutMapping("/{production-id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public Mono<Production> update(@PathVariable("production-id") String productionId,
                                    @RequestBody Production production, WebRequest request) {
         var username = PrincipalUtils.getUsername(request);
@@ -69,11 +83,11 @@ public class ProductionApi {
                                 .thenReturn(productionFromDb));
     }
 
-    @ResponseStatus(HttpStatus.ACCEPTED)
     @DeleteMapping("/{production-id}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
     public Mono<Production> deleteById(@PathVariable("production-id") String productionId, WebRequest request) {
         var username = PrincipalUtils.getUsername(request);
-        return productionService.deleteById( productionId,username)
+        return productionService.deleteById(productionId, username)
                 .flatMap(productionFromDb ->
                         kafkaProductionLogProducer
                                 .log(KafkaProductionLogSender.ProductionActionType.DELETE, productionFromDb, username)

@@ -1,5 +1,6 @@
 package com.semihbkgr.ecommerce.uiserver.controller;
 
+import com.semihbkgr.ecommerce.uiserver.client.ProductionClient;
 import com.semihbkgr.ecommerce.uiserver.client.UserClient;
 import com.semihbkgr.ecommerce.uiserver.util.PrincipalUtils;
 import lombok.RequiredArgsConstructor;
@@ -19,16 +20,19 @@ import javax.servlet.http.HttpServletRequest;
 public class ProfileController {
 
     private final UserClient userClient;
+    private final ProductionClient productionClient;
 
     @GetMapping("/{username}")
-    public String findUserByUsername(@PathVariable("username") String username, HttpServletRequest request,Model model) {
+    public String findUserByUsername(@PathVariable("username") String username, HttpServletRequest request, Model model) {
         var user = userClient.findByUsername(username);
-        var authUsername= PrincipalUtils.getUsername(request);
+        var productionInfList = productionClient.findAllInfosByOwner(username, 0);
+        var authUsername = PrincipalUtils.getUsername(request);
         log.debug("findUserByUsername, username: {}, isUserNonNull: {}", username, user != null);
         model.addAttribute("username", username);
-        model.addAttribute("authUsername",authUsername);
+        model.addAttribute("authUsername", authUsername);
         model.addAttribute("user", user);
-        model.addAttribute("owned",username.equals(authUsername));
+        model.addAttribute("productionInfos", productionInfList);
+        model.addAttribute("owned", username.equals(authUsername));
         return "profile";
     }
 

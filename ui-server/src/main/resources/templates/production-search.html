@@ -45,12 +45,12 @@
   <h3>Search: [[${search}]]</h3>
   <div style="margin-top: 3%">
     <ul class="list-group list-group-flush">
-      <li class="list-group-item" th:each="production: ${productions}">
+      <li class="list-group-item" th:each="productionInfo: ${productionInfos}">
         <div>
-          <p>Name: <a th:href="'/production/'+${production.id}">[[${production.name}]]</a></p>
-          <p>Owner: <a th:href="'/profile/'+${production.owner}">[[${production.owner}]]</a></p>
-          <p style="display: inline">Price: [[${production.price}]]</p>
-          <p style="display: inline">Stock: [[${production.stock}]]</p>
+          <p>Name: <a th:href="'/production/'+${productionInfo.id}">[[${productionInfo.name}]]</a></p>
+          <p>Owner: <a th:href="'/profile/'+${productionInfo.owner}">[[${productionInfo.owner}]]</a></p>
+          <p style="display: inline">Price: [[${productionInfo.price}]]</p>
+          <p style="display: inline">Stock: [[${productionInfo.stock}]]</p>
         </div>
       </li>
     </ul>

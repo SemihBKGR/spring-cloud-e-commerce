@@ -23,6 +23,10 @@ public interface ProductionClient {
     List<ProductionInfo> findAllInfos(@RequestParam("p") int page);
 
     @NonNull
+    @GetMapping("/owner/{owner}")
+    List<ProductionInfo> findAllInfosByOwner(@PathVariable("owner") String owner, @RequestParam(value = "p") int page);
+
+    @NonNull
     @GetMapping("/search")
     List<ProductionInfo> findAllInfos(@RequestParam("s") String search, @RequestParam("p") int page);
 

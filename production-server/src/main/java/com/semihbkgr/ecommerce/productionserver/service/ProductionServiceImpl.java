@@ -49,6 +49,11 @@ public class ProductionServiceImpl implements ProductionService {
     }
 
     @Override
+    public Flux<ProductionInfo> findAllInfosByOwner(@NonNull String owner,@NonNull Pageable pageable) {
+        return productionRepository.findAllByOwner(owner,pageable);
+    }
+
+    @Override
     public Flux<ProductionInfo> searchByName(@NonNull String name, @NonNull Pageable pageable) {
         return productionRepository.findAllByNameContaining(name, pageable);
     }

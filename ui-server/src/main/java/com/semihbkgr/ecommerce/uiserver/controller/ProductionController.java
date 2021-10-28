@@ -39,7 +39,7 @@ public class ProductionController {
                                    HttpServletRequest request,Model model){
         var productionInfoList=productionClient.findAllInfos(search,page);
         var authUsername= PrincipalUtils.getUsername(request);
-        model.addAttribute("productions",productionInfoList);
+        model.addAttribute("productionInfos",productionInfoList);
         model.addAttribute("authUsername",authUsername);
         model.addAttribute("search",search);
         return "production-search";

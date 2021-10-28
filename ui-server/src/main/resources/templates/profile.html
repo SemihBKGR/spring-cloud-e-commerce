@@ -47,13 +47,26 @@
 
 <div class="container" style="margin-top: 5%; margin-bottom: 5%">
     <div th:if="${user != null}">
-        <p>Username: [[${user.username}]]</p>
-        <p>Firstname: [[${user.firstname}]]</p>
-        <p>Lastname: [[${user.lastname}]]</p>
-        <p>Email: [[${user.email}]]</p>
+        <div>
+            <p>Username: [[${user.username}]]</p>
+            <p>Firstname: [[${user.firstname}]]</p>
+            <p>Lastname: [[${user.lastname}]]</p>
+            <p>Email: [[${user.email}]]</p>
+        </div>
+        <div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" th:each="productionInfo: ${productionInfos}">
+                    <div>
+                        <p>Name: <a th:href="'/production/'+${productionInfo.id}">[[${productionInfo.name}]]</a></p>
+                        <p style="display: inline">Price: [[${productionInfo.price}]]</p>
+                        <p style="display: inline">Stock: [[${productionInfo.stock}]]</p>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
     <div th:unless="${user != null}">
-        <p>No such user, '[[${username}]]'</p>
+        <p>No such user, username: '[[${username}]]'</p>
     </div>
 </div>
 

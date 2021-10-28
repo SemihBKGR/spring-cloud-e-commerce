@@ -16,6 +16,8 @@ public interface ProductionService {
 
     Flux<ProductionInfo> findAllInfos(Pageable pageable);
 
+    Flux<ProductionInfo> findAllInfosByOwner(String owner,Pageable pageable);
+
     Flux<ProductionInfo> searchByName(String name,Pageable pageable);
 
     Mono<Production> deleteById(String id,String owner);
