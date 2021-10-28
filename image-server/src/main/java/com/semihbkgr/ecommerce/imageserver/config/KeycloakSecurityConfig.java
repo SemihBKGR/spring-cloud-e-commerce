@@ -26,6 +26,8 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http.authorizeRequests()
+                .antMatchers("/profile/**",HttpMethod.GET.name())
+                .authenticated()
                 .antMatchers(HttpMethod.GET.name())
                 .permitAll()
                 .anyRequest()

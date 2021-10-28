@@ -1,17 +1,18 @@
 package com.semihbkgr.ecommerce.imageserver.content;
 
 import org.springframework.core.io.buffer.DataBuffer;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 public interface ImageContentProvider {
 
-    Mono<Void> save(String id, Flux<DataBuffer> content);
+    void save(String id, MultipartFile content) throws IOException;
 
-    Mono<Void> update(String id, Flux<DataBuffer> content);
+    void update(String id, MultipartFile content) throws IOException;
 
-    Flux<DataBuffer> get(String id);
+    byte[] get(String id) throws IOException;
 
-    Mono<Void> delete(String id);
+    void delete(String id) throws IOException;
 
 }
