@@ -12,8 +12,6 @@ public interface KafkaProductionLogSender {
         DELETE
     }
 
-    Mono<SenderResult<Void>> log(ProductionActionType type, Production production);
-
     Mono<SenderResult<Void>> log(ProductionActionType type, Production production,String actionBy);
 
 }

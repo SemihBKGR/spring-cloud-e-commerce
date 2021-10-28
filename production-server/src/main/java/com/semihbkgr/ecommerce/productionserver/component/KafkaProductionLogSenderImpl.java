@@ -21,11 +21,6 @@ public class KafkaProductionLogSenderImpl implements KafkaProductionLogSender {
     private String logTopic;
 
     @Override
-    public Mono<SenderResult<Void>> log(ProductionActionType type, Production production) {
-        return kafkaProducerTemplate.send(logTopic, logMessageOf(type, production, null));
-    }
-
-    @Override
     public Mono<SenderResult<Void>> log(ProductionActionType type, Production production, String actionBy) {
         return kafkaProducerTemplate.send(logTopic, logMessageOf(type, production, actionBy));
     }

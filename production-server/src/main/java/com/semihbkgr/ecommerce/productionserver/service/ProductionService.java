@@ -8,9 +8,9 @@ import reactor.core.publisher.Mono;
 
 public interface ProductionService {
 
-    Mono<Production> save(Production production);
+    Mono<Production> save(String owner,Production production);
 
-    Mono<Production> update(String id,Production production);
+    Mono<Production> update(String id,String owner,Production production);
 
     Mono<Production> findById(String id);
 
@@ -18,6 +18,6 @@ public interface ProductionService {
 
     Flux<ProductionInfo> searchByName(String name,Pageable pageable);
 
-    Mono<Production> deleteById(String id);
+    Mono<Production> deleteById(String id,String owner);
 
 }

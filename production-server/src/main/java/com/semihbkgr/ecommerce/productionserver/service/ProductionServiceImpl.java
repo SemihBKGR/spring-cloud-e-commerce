@@ -19,13 +19,16 @@ public class ProductionServiceImpl implements ProductionService {
     private final IdGenerator idGenerator;
 
     @Override
-    public Mono<Production> save(@NonNull Production production) {
-        return productionRepository.save(production.withId(idGenerator.generate()));
+    public Mono<Production> save(@NonNull String owner, @NonNull Production production) {
+        var productionToDb = production.withId(idGenerator.generate());
+        productionToDb.setOwner(owner);
+        return productionRepository.save(productionToDb);
     }
 
     @Override
-    public Mono<Production> update(@NonNull String id, @NonNull Production production) {
-        return findById(id)
+    public Mono<Production> update(@NonNull String id, @NonNull String owner, @NonNull Production production) {
+        return productionRepository.findById(id)
+                .filter(productionFromDb -> productionFromDb.getOwner().equals(owner))
                 .flatMap(productionFromDb -> {
                     productionFromDb.setName(production.getName());
                     productionFromDb.setPrice(production.getPrice());
@@ -46,13 +49,14 @@ public class ProductionServiceImpl implements ProductionService {
     }
 
     @Override
-    public Flux<ProductionInfo> searchByName(@NonNull String name,@NonNull Pageable pageable) {
-        return productionRepository.findAllByNameContaining(name,pageable);
+    public Flux<ProductionInfo> searchByName(@NonNull String name, @NonNull Pageable pageable) {
+        return productionRepository.findAllByNameContaining(name, pageable);
     }
 
     @Override
-    public Mono<Production> deleteById(@NonNull String id) {
-        return findById(id)
+    public Mono<Production> deleteById(@NonNull String id, @NonNull String owner) {
+        return productionRepository.findById(id)
+                .filter(productionFromDb -> productionFromDb.getOwner().equals(owner))
                 .flatMap(productionFromDb ->
                         productionRepository.deleteById(id)
                                 .thenReturn(productionFromDb));
