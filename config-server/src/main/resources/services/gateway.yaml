@@ -9,10 +9,18 @@ spring:
           uri: lb://user
           predicates:
             - Path=/user/**
+        - id: production
+          url: lb://production
+          predicates:
+            - Path=/production/**
+        - id: image
+            url: lb://image
+            predicates:
+              - Path=/image/**
       discovery:
         locator:
-          enabled: 'true'
-          lower-case-service-id: 'true'
+          enabled: true
+          lower-case-service-id: true
 
 eureka:
   client:
