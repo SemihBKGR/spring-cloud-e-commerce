@@ -6,8 +6,8 @@ import com.semihbkgr.ecommerce.modelcommon.image.ProductionImage;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -17,36 +17,41 @@ public class ProductionImageServiceImpl implements ProductionImageService {
     private final IdGenerator idGenerator;
 
     @Override
-    public Mono<ProductionImage> save(@NonNull ProductionImage image) {
+    public ProductionImage save(@NonNull ProductionImage image) {
         return productionImageRepository.save(image.withId(idGenerator.generate()));
     }
 
     @Override
-    public Mono<ProductionImage> update(@NonNull String id, @NonNull ProductionImage image) {
-        return productionImageRepository.findById(id)
-                .flatMap(imageFromDb -> {
-                    imageFromDb.setDisplayOrder(image.getDisplayOrder());
-                    imageFromDb.setSize(image.getSize());
-                    return productionImageRepository.save(imageFromDb);
-                });
+    public ProductionImage update(@NonNull String id, @NonNull ProductionImage image) {
+        var imageFromDbOpt = productionImageRepository.findById(id);
+        if (imageFromDbOpt.isEmpty())
+            return null;
+        var imageFromDb = imageFromDbOpt.get();
+        imageFromDb.setDisplayOrder(image.getDisplayOrder());
+        imageFromDb.setSize(image.getSize());
+        return productionImageRepository.save(imageFromDb);
     }
 
     @Override
-    public Mono<ProductionImage> findById(@NonNull String id) {
-        return productionImageRepository.findById(id);
+    public ProductionImage findById(@NonNull String id) {
+        var imageFromDbOpt = productionImageRepository.findById(id);
+        if (imageFromDbOpt.isEmpty())
+            return null;
+        return imageFromDbOpt.get();
     }
 
     @Override
-    public Flux<ProductionImage> findAllByProductionId(@NonNull String productionId) {
+    public List<ProductionImage> findAllByProductionId(@NonNull String productionId) {
         return productionImageRepository.findAllByProductionIdOrderByDisplayOrderAsc(productionId);
     }
 
     @Override
-    public Mono<ProductionImage> deleteById(String id) {
-        return productionImageRepository.findById(id)
-                .flatMap(imageFromDb ->
-                        productionImageRepository.deleteById(id)
-                                .thenReturn(imageFromDb));
+    public ProductionImage deleteById(String id) {
+        var imageFromDbOpt = productionImageRepository.findById(id);
+        if (imageFromDbOpt.isEmpty())
+            return null;
+        productionImageRepository.deleteById(id);
+        return imageFromDbOpt.get();
     }
 
 }

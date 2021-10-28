@@ -6,43 +6,46 @@ import com.semihbkgr.ecommerce.modelcommon.image.ProfileImage;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
 public class ProfileImageServiceImpl implements ProfileImageService {
 
     private final ProfileImageRepository imageRepository;
-    private final IdGenerator idGenerator;
 
     @Override
-    public Mono<ProfileImage> save(@NonNull ProfileImage image) {
-        if(image.getId()==null || image.getId().isBlank())
-            return Mono.error(new IllegalArgumentException());
+    public ProfileImage save(@NonNull ProfileImage image) {
+        if (image.getId() == null || image.getId().isBlank())
+            return null;
         return imageRepository.save(image);
     }
 
     @Override
-    public Mono<ProfileImage> update(@NonNull String id, @NonNull ProfileImage image) {
-        return imageRepository.findById(id)
-                .flatMap(imageFromDb -> {
-                    imageFromDb.setExtension(image.getExtension());
-                    imageFromDb.setSize(image.getSize());
-                    return imageRepository.save(imageFromDb);
-                });
+    public ProfileImage update(@NonNull String id, @NonNull ProfileImage image) {
+        var imageFromDbOpt = imageRepository.findById(id);
+        if (imageFromDbOpt.isEmpty())
+            return null;
+        var imageFromDb = imageFromDbOpt.get();
+        imageFromDb.setExtension(image.getExtension());
+        imageFromDb.setSize(image.getSize());
+        return imageRepository.save(imageFromDb);
     }
 
     @Override
-    public Mono<ProfileImage> findById(@NonNull String id) {
-        return imageRepository.findById(id);
+    public ProfileImage findById(@NonNull String id) {
+        var imageFromDbOpt = imageRepository.findById(id);
+        if (imageFromDbOpt.isEmpty())
+            return null;
+        return imageFromDbOpt.get();
     }
 
     @Override
-    public Mono<ProfileImage> deleteById(@NonNull String id) {
-        return imageRepository.findById(id)
-                .flatMap(imageFromDb ->
-                        imageRepository.deleteById(id)
-                                .thenReturn(imageFromDb));
+    public ProfileImage deleteById(@NonNull String id) {
+        var imageFromDbOpt = imageRepository.findById(id);
+        if (imageFromDbOpt.isEmpty())
+            return null;
+        imageRepository.deleteById(id);
+        return imageFromDbOpt.get();
     }
 
 }
