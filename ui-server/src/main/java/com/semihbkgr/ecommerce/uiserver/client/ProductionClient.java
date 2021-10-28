@@ -8,19 +8,10 @@ import org.springframework.lang.Nullable;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @FeignClient("PRODUCTION")
 public interface ProductionClient {
-
-    @NonNull
-    @PostMapping
-    Production save(@RequestBody Production production,
-                    @RequestHeader("Authorization") String authorization);
-
-    @Nullable
-    @PutMapping("/{production-id}")
-    Production update(@PathVariable("production-id") String productionId,
-                      @RequestBody Production production,
-                      @RequestHeader("Authorization") String authorization);
 
     @Nullable
     @GetMapping("/{production-id}")
@@ -29,7 +20,21 @@ public interface ProductionClient {
 
     @NonNull
     @GetMapping
-    ProductionInfo findAllInfos(@RequestHeader("Authorization") String authorization);
+    List<ProductionInfo> findAllInfos(@RequestParam("p") int page);
+
+    @NonNull
+    @GetMapping("/search")
+    List<ProductionInfo> findAllInfos(@RequestParam("s") String search, @RequestParam("p") int page);
+
+    @NonNull
+    @PostMapping
+    Production save(@RequestBody Production production, @RequestHeader("Authorization") String authorization);
+
+    @Nullable
+    @PutMapping("/{production-id}")
+    Production update(@PathVariable("production-id") String productionId,
+                      @RequestBody Production production,
+                      @RequestHeader("Authorization") String authorization);
 
     @Nullable
     @DeleteMapping("/{production-id}")
