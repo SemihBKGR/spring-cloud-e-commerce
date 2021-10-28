@@ -22,16 +22,16 @@ public class KafkaImageLogSenderImpl implements KafkaImageLogSender {
     private String logTopic;
 
     @Override
-    public ListenableFuture<SendResult<Object, Object>> log(ProfileActionType type, ProfileImage image, String actionBy) {
+    public ListenableFuture<SendResult<Object, Object>> log(ActionType type, ProfileImage image, String actionBy) {
         return kafkaTemplate.send(logTopic, logMessageOf(type, image, actionBy));
     }
 
     @Override
-    public ListenableFuture<SendResult<Object, Object>> log(ProductionActionType type, ProductionImage image, String actionBy) {
+    public ListenableFuture<SendResult<Object, Object>> log(ActionType type, ProductionImage image, String actionBy) {
         return kafkaTemplate.send(logTopic, logMessageOf(type, image, actionBy));
     }
 
-    private LogMessage logMessageOf(@NonNull ProfileActionType type,
+    private LogMessage logMessageOf(@NonNull ActionType type,
                                     @NonNull ProfileImage image,
                                     @Nullable String actionBy) {
         return LogMessage.builder()
@@ -42,7 +42,7 @@ public class KafkaImageLogSenderImpl implements KafkaImageLogSender {
                 .build();
     }
 
-    private LogMessage logMessageOf(@NonNull ProductionActionType type,
+    private LogMessage logMessageOf(@NonNull ActionType type,
                                     @NonNull ProductionImage image,
                                     @Nullable String actionBy) {
         return LogMessage.builder()
