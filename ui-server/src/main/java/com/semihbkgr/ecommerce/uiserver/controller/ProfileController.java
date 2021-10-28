@@ -1,6 +1,7 @@
 package com.semihbkgr.ecommerce.uiserver.controller;
 
 import com.semihbkgr.ecommerce.uiserver.client.UserClient;
+import com.semihbkgr.ecommerce.uiserver.util.PrincipalUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -9,21 +10,26 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Slf4j
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/profile")
 @RequiredArgsConstructor
-public class UserController {
+public class ProfileController {
 
     private final UserClient userClient;
 
-    @GetMapping("/find/{username}")
-    public String findUserByUsername(@PathVariable("username") String username, Model model) {
+    @GetMapping("/{username}")
+    public String findUserByUsername(@PathVariable("username") String username, HttpServletRequest request,Model model) {
         var user = userClient.findByUsername(username);
+        var authUsername= PrincipalUtils.getUsername(request);
         log.debug("findUserByUsername, username: {}, isUserNonNull: {}", username, user != null);
         model.addAttribute("username", username);
+        model.addAttribute("authUsername",authUsername);
         model.addAttribute("user", user);
-        return "user-profile";
+        model.addAttribute("owned",username.equals(authUsername));
+        return "profile";
     }
 
     @GetMapping("/search/{username}")

@@ -12,8 +12,8 @@ public class MenuController {
 
     @GetMapping("/menu")
     public String menu(HttpServletRequest request, Model model){
-        var username= PrincipalUtils.getUsername(request);
-        model.addAttribute("username",username);
+        var authUsername= PrincipalUtils.getUsername(request);
+        model.addAttribute("authUsername",authUsername);
         return "menu";
     }
 

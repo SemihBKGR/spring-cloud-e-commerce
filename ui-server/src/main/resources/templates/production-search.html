@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+  <script crossorigin="anonymous"
+          integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+          src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script crossorigin="anonymous"
+          integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+          src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script crossorigin="anonymous"
+          integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+          src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <title th:text="${search}"></title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand">E-Commerce</a>
+  <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+          data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/menu">Menu</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" th:href="'/profile/'+${authUsername}">Profile</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">Log-out</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0" method="get">
+      <input aria-label="Search" class="form-control mr-sm-2 border-success" placeholder="Search" type="search" name="s">
+      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+    </form>
+  </div>
+</nav>
+<div class="container text-center" style="margin-top:5%; margin-bottom:5%">
+  <h3>Search: [[${search}]]</h3>
+  <div style="margin-top: 3%">
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item" th:each="production: ${productions}">
+        <div>
+          <p>Name: <a th:href="'/production/'+${production.id}">[[${production.name}]]</a></p>
+          <p>Owner: <a th:href="'/profile/'+${production.owner}">[[${production.owner}]]</a></p>
+          <p style="display: inline">Price: [[${production.price}]]</p>
+          <p style="display: inline">Stock: [[${production.stock}]]</p>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+</body>
+</html>
