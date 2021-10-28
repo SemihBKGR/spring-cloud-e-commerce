@@ -24,7 +24,6 @@ public class ProfileImageApi {
     private final KafkaImageLogSender kafkaImageLogSender;
     private final ImageContentProvider imageContentProvider;
 
-
     @Autowired
     public ProfileImageApi(ProfileImageService profileImageService,
                            KafkaImageLogSender kafkaImageLogSender,
@@ -32,39 +31,6 @@ public class ProfileImageApi {
         this.profileImageService = profileImageService;
         this.kafkaImageLogSender = kafkaImageLogSender;
         this.imageContentProvider = imageContentProvider;
-    }
-
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public ProfileImage load(@RequestParam("content") MultipartFile file, HttpServletRequest request) throws IOException {
-        var username = PrincipalUtils.getUsername(request);
-        var extension = FilenameUtils.detachExtension(file.getOriginalFilename());
-        var image = ProfileImage.builder()
-                .id(username)
-                .extension(extension)
-                .size(file.getSize())
-                .build();
-        var imageFromDb = profileImageService.save(image);
-        imageContentProvider.save(FilenameUtils.attachExtension(username, extension), file);
-        kafkaImageLogSender.log(KafkaImageLogSender.ProfileActionType.LOAD, imageFromDb, username);
-        return imageFromDb;
-    }
-
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public ProfileImage get(HttpServletRequest request) {
-        var username = PrincipalUtils.getUsername(request);
-        return profileImageService.findById(username);
-    }
-
-    @GetMapping(path = "/content", produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
-    @ResponseStatus(HttpStatus.OK)
-    public byte[] getContent(HttpServletRequest request) throws IOException {
-        var username = PrincipalUtils.getUsername(request);
-        var image = profileImageService.findById(username);
-        if (image == null)
-            return new byte[0];
-        return imageContentProvider.get(FilenameUtils.attachExtension(image.getId(), image.getExtension()));
     }
 
     @GetMapping("/{username}")
@@ -82,6 +48,22 @@ public class ProfileImageApi {
         return imageContentProvider.get(FilenameUtils.attachExtension(image.getId(), image.getExtension()));
     }
 
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public ProfileImage upload(@RequestParam("content") MultipartFile file, HttpServletRequest request) throws IOException {
+        var username = PrincipalUtils.getUsername(request);
+        var extension = FilenameUtils.detachExtension(file.getOriginalFilename());
+        var image = ProfileImage.builder()
+                .id(username)
+                .extension(extension)
+                .size(file.getSize())
+                .build();
+        var imageFromDb = profileImageService.save(image);
+        imageContentProvider.save(FilenameUtils.attachExtension(username, extension), file);
+        kafkaImageLogSender.log(KafkaImageLogSender.ActionType.UPLOAD, imageFromDb, username);
+        return imageFromDb;
+    }
+
     @DeleteMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
     public ProfileImage delete(HttpServletRequest request) throws IOException {
@@ -90,7 +72,7 @@ public class ProfileImageApi {
         if (image == null)
             return null;
         imageContentProvider.delete(FilenameUtils.attachExtension(image.getId(), image.getExtension()));
-        kafkaImageLogSender.log(KafkaImageLogSender.ProfileActionType.DELETE, image, username);
+        kafkaImageLogSender.log(KafkaImageLogSender.ActionType.DELETE, image, username);
         return image;
     }
 

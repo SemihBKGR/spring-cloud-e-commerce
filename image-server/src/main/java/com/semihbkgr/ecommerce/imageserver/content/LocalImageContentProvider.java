@@ -28,6 +28,9 @@ public class LocalImageContentProvider implements ImageContentProvider {
 
     @Override
     public void save(@NonNull String dirPath, @NonNull String filename, @NonNull MultipartFile file) throws IOException {
+        var path = rootDirPath.resolve(dirPath);
+        if (Files.notExists(path))
+            Files.createDirectories(path);
         transferFile(rootDirPath.resolve(dirPath).resolve(filename), file);
     }
 
