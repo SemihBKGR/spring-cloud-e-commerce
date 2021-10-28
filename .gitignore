@@ -31,3 +31,9 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Custom ###
+logs/app.log
+logs/archived/*
+images/profile/*
+images/production/*
