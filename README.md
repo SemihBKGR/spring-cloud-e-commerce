@@ -36,6 +36,7 @@ A sample Spring Cloud based application
   - hostname: image
 - Log Server  
   - hostname: log
+  - port 9090
 - MongoDB
   - port 27017
   - hostname: mongodb  

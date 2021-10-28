@@ -25,25 +25,25 @@ public interface ImageClient {
     ProfileImage deleteProfile(@RequestHeader("Authorization") String authorization);
 
     @GetMapping("/production/{image-id}")
-    ProductionImage get(@PathVariable("image-id") String imageId);
+    ProductionImage getProduction(@PathVariable("image-id") String imageId);
 
     @GetMapping("/production/all/{production-id}")
-    List<ProductionImage> getAll(@PathVariable("production-id") String productionId);
+    List<ProductionImage> getAllProductions(@PathVariable("production-id") String productionId);
 
     @GetMapping("/production/content/{image-id}")
-    byte[] getContent(@PathVariable("image-id") String imageId);
+    byte[] getProductionContent(@PathVariable("image-id") String imageId);
 
     @PostMapping("/production/{production-id}")
-    ProductionImage upload(@PathVariable("production-id") String productionId,
-                           @RequestParam("content") MultipartFile file,
-                           @RequestHeader("Authorization") String authorization);
+    ProductionImage uploadProduction(@PathVariable("production-id") String productionId,
+                                     @RequestParam("content") MultipartFile file,
+                                     @RequestHeader("Authorization") String authorization);
 
     @DeleteMapping("/production/{image-id}")
-    ProductionImage delete(@PathVariable("image-id") String imageId,
-                           @RequestHeader("Authorization") String authorization);
+    ProductionImage deleteProduction(@PathVariable("image-id") String imageId,
+                                     @RequestHeader("Authorization") String authorization);
 
     @DeleteMapping("/production/all/{production-id}")
-    List<ProductionImage> deleteAll(@PathVariable("production-id") String productionId,
-                                    @RequestHeader("Authorization") String authorization);
+    List<ProductionImage> deleteAllProductions(@PathVariable("production-id") String productionId,
+                                               @RequestHeader("Authorization") String authorization);
 
 }

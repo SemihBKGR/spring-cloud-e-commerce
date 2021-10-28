@@ -18,7 +18,8 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand">E-Commerce</a>
-    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler"
             data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -34,8 +35,9 @@
                 <a class="nav-link" href="/logout">Log-out</a>
             </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0" method="get" action="/production/search">
-            <input aria-label="Search" class="form-control mr-sm-2 border-success" placeholder="Search" type="search" name="s">
+        <form action="/production/search" class="form-inline my-2 my-lg-0" method="get">
+            <input aria-label="Search" class="form-control mr-sm-2 border-success" name="s" placeholder="Search"
+                   type="search">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
         </form>
     </div>
@@ -47,6 +49,11 @@
         <p>Price: [[${production.price}]]</p>
         <p>Stock: [[${production.stock}]]</p>
         <p>Description: [[${production.description}]]</p>
+        <ul>
+            <li th:each="image : ${images}">
+                <img height="150" th:src="'/image/production/'+${image.id}" width="150">
+            </li>
+        </ul>
     </div>
     <div th:unless="${production} != null">
         <p>No such production</p>

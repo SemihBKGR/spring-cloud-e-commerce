@@ -48,12 +48,13 @@
 <div class="container" style="margin-top: 5%; margin-bottom: 5%">
     <div th:if="${user != null}">
         <div>
+            <img th:src="'/image/user/'+${user.username}" width="150" height="150">
             <p>Username: [[${user.username}]]</p>
             <p>Firstname: [[${user.firstname}]]</p>
             <p>Lastname: [[${user.lastname}]]</p>
             <p>Email: [[${user.email}]]</p>
         </div>
-        <div>
+        <div class="text-center">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item" th:each="productionInfo: ${productionInfos}">
                     <div>

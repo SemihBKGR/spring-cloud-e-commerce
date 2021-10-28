@@ -25,7 +25,7 @@ public class KeycloakSecurityConfig extends KeycloakWebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http.authorizeRequests()
-                .antMatchers("/","/favicon.ico")
+                .antMatchers("/","/favicon.ico","/image/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

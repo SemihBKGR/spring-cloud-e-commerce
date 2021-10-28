@@ -1,5 +1,6 @@
 package com.semihbkgr.ecommerce.uiserver.controller;
 
+import com.semihbkgr.ecommerce.uiserver.client.ImageClient;
 import com.semihbkgr.ecommerce.uiserver.client.ProductionClient;
 import com.semihbkgr.ecommerce.uiserver.util.HeaderUtils;
 import com.semihbkgr.ecommerce.uiserver.util.PrincipalUtils;
@@ -22,13 +23,16 @@ import javax.servlet.http.HttpServletRequest;
 public class ProductionController {
 
     private final ProductionClient productionClient;
+    private final ImageClient imageClient;
 
     @GetMapping("/{production-id}")
     public String findProductionById(@PathVariable("production-id")String productionId, HttpServletRequest request, Model model){
         var production=productionClient.findById(productionId, HeaderUtils.getAuthenticationHeader(request));
+        var imageList=imageClient.getAllProductions(productionId);
         var authUsername=PrincipalUtils.getUsername(request);
         log.debug("findProductionById, production-id: {}, isProductionNonNull: {}", productionId,production!=null);
         model.addAttribute("production",production);
+        model.addAttribute("images",imageList);
         model.addAttribute("authUsername",authUsername);
         return "production";
     }
