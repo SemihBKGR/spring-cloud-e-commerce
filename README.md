@@ -4,17 +4,19 @@ A sample Spring Cloud based application
 
 ### Modules
 
-- [config-server](./config-server/README.md) 
-- [discovery-server](./discovery-server/README.md)
-- [gateway-server](./gateway-server/README.md)
-- [ui-server](./ui-server/README.md)
-- [user-server](./user-server/README.md)
-- [production-server](./production-server/README.md)
-- [image-server](./image-server/README.md)
-- [log-server](./log-server/README.md)
-- [model-common](./model-common/README.md)
+- [config-server](./config-server) 
+- [discovery-server](./discovery-server)
+- [gateway-server](./gateway-server)
+- [ui-server](./ui-server)
+- [user-server](./user-server)
+- [production-server](./production-server)
+- [image-server](./image-server)
+- [log-server](./log-server)
+- [model-common](./model-common)
 
 ### Services
+
+Service list with default properties
 
 - Config Server
   - port: 8888
@@ -47,7 +49,7 @@ A sample Spring Cloud based application
   - port: 8080
   - hostname: keycloak
 - Zookeeper
-  -port: 2181
+  - port: 2181
   - hostname: zookeeper
 - Kafka
   - port: 29092
@@ -66,11 +68,6 @@ docker-compose --env-file=.env.dev up
 ```
 
 ### Keycloak
-
-Remove keycloak export volume file and import command in docker-compose file when it causes an error and configure
-keycloak manually.
-
-#### Default keycloak properties
 
 Keycloak admin console
 
