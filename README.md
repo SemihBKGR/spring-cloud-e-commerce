@@ -1,4 +1,4 @@
-# e-commerce
+# spring cloud e-commerce
 
 A sample Spring Cloud based application
 
@@ -37,8 +37,8 @@ Service list with default properties
   - port: 9030
   - hostname: image
 - Log Server  
-  - hostname: log
   - port 9090
+  - hostname: log
 - MongoDB
   - port 27017
   - hostname: mongodb  

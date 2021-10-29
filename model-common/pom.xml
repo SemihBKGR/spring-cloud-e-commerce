@@ -8,8 +8,8 @@
     </properties>
 
     <parent>
-        <artifactId>e-commerce</artifactId>
         <groupId>com.semihbkgr</groupId>
+        <artifactId>spring-cloud-e-commerce</artifactId>
         <version>1.0.0</version>
     </parent>
 
